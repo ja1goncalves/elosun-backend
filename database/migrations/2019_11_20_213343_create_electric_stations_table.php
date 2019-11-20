@@ -17,7 +17,7 @@ class CreateElectricStationsTable extends Migration
 	{
 		Schema::create('electric_stations', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('number', 20);
+            $table->string('number', 20)->unique();
             $table->string('type_production', 20)->default('residence');
             $table->integer('plates')->nullable();
             $table->float('area', 20)->nullable();

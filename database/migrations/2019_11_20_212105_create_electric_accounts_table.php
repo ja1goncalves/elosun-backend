@@ -17,7 +17,7 @@ class CreateElectricAccountsTable extends Migration
 	{
 		Schema::create('electric_accounts', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('number', 20);
+            $table->string('number', 20)->unique();
             $table->string('type_address', 20)->default('residence');
             $table->boolean('low_income')->default(false);
             $table->enum('phase', ['mono', 'bi', 'tri']);
