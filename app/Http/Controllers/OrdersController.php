@@ -44,4 +44,16 @@ class OrdersController extends Controller
         $this->service = $service;
         $this->validator  = $validator;
     }
+
+    public function sale(OrderCreateRequest $request)
+    {
+        $response = $this->service->sale($request->all());
+        return response()->json($response, $response['status']);
+    }
+
+    public function purchase(OrderCreateRequest $request)
+    {
+        $response = $this->service->purchase($request->all());
+        return response()->json($response, $response['status']);
+    }
 }

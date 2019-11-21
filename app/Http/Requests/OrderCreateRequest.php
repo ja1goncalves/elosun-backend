@@ -13,7 +13,7 @@ class OrderCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,16 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'start_watts' => 'required',
+            'end_watts' => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'start_watts.required' => 'É necessário um início de intervalo em Watts.',
+            'end_watts.required' => 'É necessário um fim de intervalo em Watts.'
         ];
     }
 }

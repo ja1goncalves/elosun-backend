@@ -18,4 +18,9 @@ namespace App\Services;
  */
 class AppService
 {
+    protected $response = [
+        'data' => [],
+        'error' => false,
+        'status' => 200
+    ];
 }

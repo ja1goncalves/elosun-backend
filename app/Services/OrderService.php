@@ -26,4 +26,13 @@ class OrderService extends AppService
         $this->repository = $repository;
     }
 
+    public function sale(array $data)
+    {
+        return $this->response;
+    }
+
+    public function purchase(array $data)
+    {
+        return $this->response;
+    }
 }
