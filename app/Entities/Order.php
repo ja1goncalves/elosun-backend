@@ -28,6 +28,9 @@ class Order extends Model implements Transformable
         'orderly_id'
     ];
 
+    const SALE = 'sale';
+    const PURCHASE = 'purchase';
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */

@@ -24,7 +24,7 @@ class Client extends Model implements Transformable
         'name',
         'email',
         'cpf_cnpj',
-        'phone',
+        'cellphone',
         'number',
     ];
 

@@ -24,16 +24,16 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_watts' => 'required',
-            'end_watts' => 'required',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'start_watts.required' => 'É necessário um início de intervalo em Watts.',
-            'end_watts.required' => 'É necessário um fim de intervalo em Watts.'
+            'start_watts'       => 'required|numeric',
+            'end_watts'         => 'required|numeric',
+            'name'              => 'required|min:10|max:100',
+            'email'             => 'required|email|max:150',
+            'cpf_cnpj'          => 'required|max:20|min:11',
+            'phone'             => 'nullable|max:15|min:9',
+            'cellphone'         => 'required|max:15|min:9',
+            'address'           => 'required',
+            'address.state'     => 'required_without:zip_code|max:2',
+            'address.zip_code'  => 'nullable|min:8|max:12'
         ];
     }
 }
