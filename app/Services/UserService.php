@@ -4,25 +4,27 @@
 namespace App\Services;
 
 
-use App\Repositories\ClientRepository;
+use App\Repositories\UserRepository;
 use App\Services\Traits\CrudMethods;
 
-class ClientService extends AppService
+class UserService extends AppService
 {
     use CrudMethods;
 
     /**
-     * @var ClientRepository
+     * @var UserRepository
      */
     protected $repository;
 
     /**
      * ClientsController constructor.
      *
-     * @param ClientRepository $repository
+     * @param UserRepository $repository
      */
-    public function __construct(ClientRepository $repository)
+    public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
     }
+
+
 }

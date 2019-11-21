@@ -5,9 +5,9 @@ namespace App\Services;
 
 
 use App\Services\Traits\CrudMethods;
-use Illuminate\Foundation\ProviderRepository;
+use App\Repositories\ProviderRepository;
 
-class ProviderService
+class ProviderService extends AppService
 {
     use CrudMethods;
 
