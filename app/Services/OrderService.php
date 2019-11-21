@@ -80,7 +80,7 @@ class OrderService extends AppService
             'orderly_id' => $provider['id'],
         ];
 
-        $this->response['data']['client'] = $provider;
+        $this->response['data']['provider'] = $provider;
         $this->response['data']['address'] = $this->address->create($address);
         $this->response['data'] = $this->repository->create($order);
 
