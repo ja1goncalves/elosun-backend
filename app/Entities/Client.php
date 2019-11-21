@@ -44,5 +44,12 @@ class Client extends Model implements Transformable
         return $this->hasMany(ElectricAccount::class, 'client_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function orders()
+    {
+        return $this->morphMany(Order::class, 'orderly');
+    }
 
 }

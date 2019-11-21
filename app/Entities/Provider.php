@@ -44,4 +44,11 @@ class Provider extends Model implements Transformable
         return $this->hasMany(ElectricStation::class, 'provider_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function orders()
+    {
+        return $this->morphMany(Order::class, 'orderly');
+    }
 }
