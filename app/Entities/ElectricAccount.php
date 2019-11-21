@@ -20,6 +20,38 @@ class ElectricAccount extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'number',
+        'type_address',
+        'low_income',
+        'phase',
+        'installation',
+        'client_id',
+        'energy_distributor_id',
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function address()
+    {
+        return $this->hasMany(Address::class, 'electric');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function energyDistributor()
+    {
+        return $this->belongsTo(EnergyDistributor::class, 'energy_distributor_id');
+    }
 
 }

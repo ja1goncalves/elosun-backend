@@ -23,6 +23,7 @@ class CreateElectricStationsTable extends Migration
             $table->float('area', 20)->nullable();
             $table->float('production');
             $table->integer('provider_id');
+            $table->integer('energy_distributor_id');
 
             $table->timestamps();
 		});

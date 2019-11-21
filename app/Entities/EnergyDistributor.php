@@ -20,6 +20,26 @@ class EnergyDistributor extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'initials',
+        'site',
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function electricAccounts()
+    {
+        return $this->hasMany(ElectricAccount::class, 'energy_distributor_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function electricStations()
+    {
+        return $this->hasMany(ElectricStation::class, 'energy_distributor_id');
+    }
 
 }

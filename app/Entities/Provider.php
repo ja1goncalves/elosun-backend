@@ -20,6 +20,28 @@ class Provider extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'cpf_cnpj',
+        'phone',
+        'cellphone',
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function addresses()
+    {
+        return $this->morphMany(Address::class, 'addressable');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function electricStations()
+    {
+        return $this->hasMany(ElectricStation::class, 'provider_id');
+    }
 
 }

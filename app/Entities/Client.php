@@ -20,6 +20,29 @@ class Client extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'cpf_cnpj',
+        'phone',
+        'number',
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function addresses()
+    {
+        return $this->morphMany(Address::class, 'addressable');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function electricAccounts()
+    {
+        return $this->hasMany(ElectricAccount::class, 'client_id');
+    }
+
 
 }

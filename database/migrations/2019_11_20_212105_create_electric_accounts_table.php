@@ -23,6 +23,7 @@ class CreateElectricAccountsTable extends Migration
             $table->enum('phase', ['mono', 'bi', 'tri']);
             $table->string('installation', 20)->nullable();
             $table->integer('client_id');
+            $table->integer('energy_distributor_id');
 
             $table->timestamps();
             $table->softDeletes();
