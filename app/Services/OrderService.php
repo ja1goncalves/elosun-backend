@@ -72,8 +72,6 @@ class OrderService extends AppService
 
         $address = $this->address($data['address'], $provider, Provider::class);
 
-        $address = $this->address->create($address);
-
         $order = [
             'start_watts' => $data['start_watts'],
             'end_watts' => $data['end_watts'],
