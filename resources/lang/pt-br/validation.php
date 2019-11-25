@@ -188,6 +188,8 @@ return [
         'account_digit'         => 'Dígito da conta',
         'agency_digit'          => 'Dígito da agência',
         'main'                  => 'Titular',
+        'end_watts'             => 'Máximo de energia',
+        'start_watts'           => 'Mínimo de energia',
     ],
 
 ];

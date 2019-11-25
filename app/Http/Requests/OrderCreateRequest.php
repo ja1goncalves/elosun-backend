@@ -24,11 +24,11 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_watts'       => 'required|numeric',
-            'end_watts'         => 'required|numeric',
+            'start_watts'       => 'required_without:end_watts|numeric',
+            'end_watts'         => 'required_without:start_watts|numeric',
             'name'              => 'required|min:10|max:100',
             'email'             => 'required|email|max:150',
-            'cpf_cnpj'          => 'required|max:20|min:11',
+            'cpf_cnpj'          => 'nullable|max:20|min:11',
             'phone'             => 'nullable|max:15|min:9',
             'cellphone'         => 'required|max:15|min:9',
             'address'           => 'required',

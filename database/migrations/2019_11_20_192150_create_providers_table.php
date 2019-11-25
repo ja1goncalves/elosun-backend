@@ -19,8 +19,8 @@ class CreateProvidersTable extends Migration
             $table->increments('id');
             $table->string('name', 150);
             $table->string('email', 100)->unique();
-            $table->string('cpf_cnpj', 25)->unique();
-            $table->string('phone', 15);
+            $table->string('cpf_cnpj', 25)->unique()->nullable();
+            $table->string('phone', 15)->nullable();
             $table->string('cellphone', 15);
             $table->timestamps();
             $table->softDeletes();

@@ -20,8 +20,8 @@ class CreateOrdersTable extends Migration
             $table->float('start_watts')->default(0)->nullable();
             $table->float('end_watts')->default(0)->nullable();
             $table->enum('type_order', ['sale', 'purchase'])->default('purchase');
-            $table->string('orderable_type', 50);
-            $table->integer('orderable_id');
+            $table->string('orderly_type', 50);
+            $table->integer('orderly_id');
             $table->softDeletes();
             $table->timestamps();
 		});

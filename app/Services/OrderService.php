@@ -89,19 +89,18 @@ class OrderService extends AppService
 
     public function purchase(array $data)
     {
-        $client = $this->client->findByField('email', $data['email']);
+        $client = $this->client->findByField('email', $data['email'])->first();
 
         if (!$client) {
             $client = [
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'cellphone' => $data['cellphone'],
-                'cpf_cnpj' => $data['cpf_cnpj']
+                'cpf_cnpj' => $data['cpf_cnpj'] ?? null
             ];
 
             $client = $this->client->create($client);
         }
-
         $address = $this->address($data['address'], $client, Client::class);
 
         $order = [
@@ -124,6 +123,8 @@ class OrderService extends AppService
         if (isset($address['zip_code'])) {
             $_address = $this->address->findWhere([
                 'zip_code' => $address['zip_code'],
+                'addressable_id' => $addressable['id'],
+                'addressable_type' => $type,
             ]);
 
             if(!$_address){
