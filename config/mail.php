@@ -133,4 +133,17 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+    'sendgrid' => [
+        'transport' => [
+            'name' => 'SendGrid API v3',
+            'host' => env('SENDGRID_HOST'),
+            'port' => '0',
+            'username' => env('SENDGRID_USERNAME'),
+            'password' => env('SENDGRID_PASSWORD')
+        ],
+        'profile' => [
+            'from' => 'contato@elosun.com.br',
+            'name' => 'Energia Compartilhada'
+        ]
+    ]
 ];

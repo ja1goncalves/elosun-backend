@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Entities\Client;
 use App\Entities\Order;
 use App\Entities\Provider;
+use App\Jobs\SendMailBySendGrid;
 use App\Repositories\AddressRepository;
 use App\Repositories\ClientRepository;
 use App\Repositories\OrderRepository;
@@ -56,7 +57,7 @@ class OrderService extends AppService
 
     public function sale(array $data)
     {
-        $provider = $this->provider->findByField('email', $data['email']);
+        $provider = $this->provider->findByField('email', $data['email'])->first();
 
         if (!$provider) {
             $provider = [
@@ -64,7 +65,7 @@ class OrderService extends AppService
                 'email' => $data['email'],
                 'phone' => $data['phone'] ?? null,
                 'cellphone' => $data['cellphone'],
-                'cpf_cnpj' => $data['cpf_cnpj']
+                'cpf_cnpj' => $data['cpf_cnpj'] ?? null
             ];
 
             $provider = $this->provider->create($provider);
@@ -83,6 +84,15 @@ class OrderService extends AppService
         $this->response['data']['provider'] = $provider;
         $this->response['data']['address'] = $this->address->create($address);
         $this->response['data'] = $this->repository->create($order);
+
+        $data_send_mail = [
+            'to' => $provider['email'],
+            'subject' => 'Confirmar cadastro de venda',
+            'user' => $provider,
+            'order' => $this->response['data']['order'],
+            'url' => ''
+        ];
+        SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
         return $this->response;
     }
@@ -114,6 +124,15 @@ class OrderService extends AppService
         $this->response['data']['client'] = $client;
         $this->response['data']['address'] = $this->address->create($address);
         $this->response['data']['order'] = $this->repository->create($order);
+
+        $data_send_mail = [
+            'to' => $client['email'],
+            'subject' => 'Confirmar cadastro de compra',
+            'user' => $client,
+            'order' => $this->response['data']['order'],
+            'url' => ''
+        ];
+        SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
         return $this->response;
     }
