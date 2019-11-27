@@ -79,6 +79,7 @@ class OrderService extends AppService
             'type_order' => Order::SALE,
             'orderly_type' => Provider::class,
             'orderly_id' => $provider['id'],
+            'order_status_id' => 2
         ];
 
         $this->response['data']['provider'] = $provider;
@@ -119,6 +120,7 @@ class OrderService extends AppService
             'type_order' => Order::PURCHASE,
             'orderly_type' => Client::class,
             'orderly_id' => $client['id'],
+            'order_status_id' => 2
         ];
 
         $this->response['data']['client'] = $client;
