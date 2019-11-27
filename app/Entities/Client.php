@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -27,6 +28,14 @@ class Client extends Model implements Transformable
         'cellphone',
         'number',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function user()
+    {
+        return $this->morphOne(User::class, 'userable');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany

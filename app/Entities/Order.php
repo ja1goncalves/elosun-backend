@@ -25,7 +25,8 @@ class Order extends Model implements Transformable
         'end_watts',
         'type_order',
         'orderly_type',
-        'orderly_id'
+        'orderly_id',
+        'order_status_id'
     ];
 
     const SALE = 'sale';
@@ -37,5 +38,13 @@ class Order extends Model implements Transformable
     public function orderly()
     {
         return $this->morphTo('orderly');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(OrdersStatus::class, 'order_status_id');
     }
 }

@@ -25,7 +25,7 @@ class User extends Authenticatable implements Transformable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'userable_id', 'userable_type'
     ];
 
     /**
@@ -45,5 +45,14 @@ class User extends Authenticatable implements Transformable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function userable()
+    {
+        return $this->morphTo();
+    }
 
 }

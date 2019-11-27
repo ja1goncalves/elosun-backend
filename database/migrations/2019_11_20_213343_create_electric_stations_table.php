@@ -18,12 +18,18 @@ class CreateElectricStationsTable extends Migration
 		Schema::create('electric_stations', function(Blueprint $table) {
             $table->increments('id');
             $table->string('number', 20)->unique();
-            $table->string('type_production', 20)->default('residence');
+            $table->enum('type_production', ['residence', 'industry'])->default('residence');
             $table->integer('plates')->nullable();
             $table->float('area', 20)->nullable();
             $table->float('production');
-            $table->integer('provider_id');
-            $table->integer('energy_distributor_id');
+            $table->integer('provider_id')->unsigned();
+            $table->foreign('provider_id')
+                ->references('id')->on('providers')
+                ->onDelete('cascade');
+            $table->integer('energy_distributor_id')->unsigned();
+            $table->foreign('energy_distributor_id')
+                ->references('id')->on('energy_distributors')
+                ->onDelete('cascade');
 
             $table->timestamps();
 		});
