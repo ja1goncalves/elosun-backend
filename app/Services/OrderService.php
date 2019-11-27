@@ -83,7 +83,7 @@ class OrderService extends AppService
 
         $this->response['data']['provider'] = $provider;
         $this->response['data']['address'] = $this->address->create($address);
-        $this->response['data'] = $this->repository->create($order);
+        $this->response['data']['order'] = $this->repository->create($order);
 
         $data_send_mail = [
             'to' => $provider['email'],
