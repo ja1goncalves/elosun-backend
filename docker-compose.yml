@@ -1,0 +1,19 @@
+version: '3.5'
+
+networks:
+  sun-application:
+    name: sun-application
+
+services:
+  sun-app:
+    build: .
+    container_name: sun-app
+    restart: always
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "5000:80"
+    networks:
+      - sun-application
+    hostname: api
+    domainname: elosun.test
