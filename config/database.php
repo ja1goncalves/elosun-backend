@@ -1,5 +1,10 @@
 <?php
 
+define('DB_HOST',     $_SERVER['RDS_HOSTNAME'] ?? null);
+define('DB_DATABASE', $_SERVER['RDS_DB_NAME']  ?? null);
+define('DB_USERNAME', $_SERVER['RDS_USERNAME'] ?? null);
+define('DB_PASSWORD', $_SERVER['RDS_PASSWORD'] ?? null);
+
 use Illuminate\Support\Str;
 
 return [
@@ -46,11 +51,16 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+//            'host' => env('DB_HOST', DB_HOST),
+//            'port' => env('DB_PORT', '3306'),
+//            'database' => env('DB_DATABASE', DB_DATABASE),
+//            'username' => env('DB_USERNAME', DB_USERNAME),
+//            'password' => env('DB_PASSWORD', DB_PASSWORD),
+            'host' => DB_HOST,
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => DB_DATABASE,
+            'username' =>  DB_USERNAME,
+            'password' => DB_PASSWORD,
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
