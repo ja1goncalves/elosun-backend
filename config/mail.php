@@ -137,7 +137,7 @@ return [
         'transport' => [
             'name' => 'SendGrid API v3',
             'host' => env('SENDGRID_HOST'),
-            'port' => '0',
+            'port' => env('SENDGRID_PORT', '587'),
             'username' => env('SENDGRID_USERNAME'),
             'password' => env('SENDGRID_PASSWORD')
         ],
