@@ -12,7 +12,7 @@ pipelines:
             AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
             APPLICATION_NAME: 'elosun'
             ENVIRONMENT_NAME: 'Elosun-env'
-            ZIP_FILE: 'api.elosun.com.br.zip'
+            ZIP_FILE: 'application.zip'
             # S3_BUCKET: '<string>' # Optional.
             # VERSION_LABEL: '<string>' # Optional.
             # DESCRIPTION: '<string>' # Optional.
