@@ -1,0 +1,21 @@
+image: python:3.6.8
+pipelines:
+  branches:
+    master:
+     - step:
+        name: Deploy
+        script:
+        - pipe: atlassian/aws-elasticbeanstalk-deploy:0.5.2
+          variables:
+            AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+            AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+            AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+            APPLICATION_NAME: 'elosun'
+            ENVIRONMENT_NAME: 'Elosun-env'
+            ZIP_FILE: 'api.elosun.com.br.zip'
+            # S3_BUCKET: '<string>' # Optional.
+            # VERSION_LABEL: '<string>' # Optional.
+            # DESCRIPTION: '<string>' # Optional.
+            # WAIT: '<boolean>' # Optional.
+            # WAIT_INTERVAL: '<integer>' # Optional.
+            # DEBUG: '<boolean>' # Optional.
