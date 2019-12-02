@@ -8,7 +8,9 @@ pipelines:
         script:
           - apk update
           - apk add zip
+          - ls -la
           - composer install
+          - ls -la
           - mkdir build
           - zip -r build/application.zip .
         artifacts:
