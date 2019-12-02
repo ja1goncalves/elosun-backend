@@ -8,9 +8,9 @@ pipelines:
           - apt-get update
           - apt-get install -y zip
           - mkdir build
-          - zip -r build/application.zip .
+          - zip -r dist/application.zip .
         artifacts:
-          - build/*.zip
+          - dist/*.zip
      - step:
          name: Test
          script:
@@ -26,8 +26,8 @@ pipelines:
             AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
             APPLICATION_NAME: 'elosun'
             ENVIRONMENT_NAME: 'Elosun-env'
-            ZIP_FILE: 'build/application.zip'
-            # S3_BUCKET: '<string>' # Optional.
+            ZIP_FILE: 'dist/application.zip'
+            S3_BUCKET: 'elosun-bitbucket-pipelines'
             # VERSION_LABEL: '<string>' # Optional.
             # DESCRIPTION: '<string>' # Optional.
             # WAIT: '<boolean>' # Optional.
