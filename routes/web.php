@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return [
+        'env' => env('APP_ENV'),
+        'key' => env('APP_KEY'),
+        'db' => env('DB_DATABASE'),
+    ];
 });
