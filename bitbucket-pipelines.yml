@@ -8,11 +8,12 @@ pipelines:
         script:
           - apk update
           - apk add zip
+          - cp .env.elasticbeanstalk .env
           - ls -la
           - composer install
           - ls -la
           - mkdir build
-          - zip -r build/application.zip .
+          - zip -r build/application.zip . -x ".env.*"
         artifacts:
           - build/*.zip
      - step:
