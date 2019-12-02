@@ -6,8 +6,8 @@ pipelines:
         name: Build
         image: jguyomard/laravel-php:7.3
         script:
-          - apt-get update
-          - apt-get install -y zip
+          - apk update
+          - apk add -y zip
           - composer install
           - mkdir build
           - zip -r build/application.zip .
