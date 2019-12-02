@@ -13,14 +13,16 @@ class OrdersStatusSeeder extends Seeder
      */
     public function run()
     {
-        $names = ['Indefinido', 'Cadastro', 'Em análise', 'A transferir', 'Transferido'];
-        foreach ($names as $name){
-            DB::table('orders_status')->insert([
-                'name' => $name,
-                'parent_id' => null,
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now(),
-            ]);
+        if (!DB::table('orders_status')->count()) {
+            $names = ['Indefinido', 'Cadastro', 'Em análise', 'A transferir', 'Transferido'];
+            foreach ($names as $name){
+                DB::table('orders_status')->insert([
+                    'name' => $name,
+                    'parent_id' => null,
+                    'created_at' => \Carbon\Carbon::now(),
+                    'updated_at' => \Carbon\Carbon::now(),
+                ]);
+            }
         }
     }
 }
