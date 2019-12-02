@@ -74,3 +74,4 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 ## Deploy
 
 sudo zip -r api.elosun.com.br-X.zip . -x "*.zip" -x *.git*
+
