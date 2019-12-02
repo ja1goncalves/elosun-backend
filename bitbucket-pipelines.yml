@@ -8,6 +8,8 @@ pipelines:
           - apt-get update
           - apt-get install -y zip
           - zip -r /tmp/application.zip .
+        artifacts:
+          - target/application.zip
      - step:
         name: Deploy
         script:
@@ -18,7 +20,7 @@ pipelines:
             AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
             APPLICATION_NAME: 'elosun'
             ENVIRONMENT_NAME: 'Elosun-env'
-            ZIP_FILE: 'application.zip'
+            ZIP_FILE: '/opt/atlassian/pipelines/agent/build/target/application.zip'
             # S3_BUCKET: '<string>' # Optional.
             # VERSION_LABEL: '<string>' # Optional.
             # DESCRIPTION: '<string>' # Optional.
