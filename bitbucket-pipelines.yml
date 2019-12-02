@@ -2,7 +2,7 @@ image: python:3.6.8
 pipelines:
   branches:
     master:
-    - step:
+     - step:
         name: Build
         script:
           - apt-get update
