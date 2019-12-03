@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use App\Services\Traits\CrudMethods;
+use Illuminate\Support\Facades\Auth;
 
 class UserService extends AppService
 {
@@ -26,5 +27,11 @@ class UserService extends AppService
         $this->repository = $repository;
     }
 
-
+    /**
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    public function getUser()
+    {
+        return Auth::user();
+    }
 }
