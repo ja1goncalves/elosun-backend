@@ -30,7 +30,6 @@ class ResetPasswordService extends AppService
     public function create($data)
     {
         try{
-
             $user = $this->userRepository->skipPresenter()->findByField('email', $data['email'])->first();
             $passwordReset = $this->repository->updateOrCreate(
                 [
@@ -56,7 +55,8 @@ class ResetPasswordService extends AppService
                 'message' => 'We have e-mailed your password reset link!'
             ]);
         }catch (\Exception $e){
-            return response()->json(['message' => "We can't find a user with that e-mail address."], 404);
+            \Log::debug($e);
+            return response()->json(['error' => true, 'message' => "We can't find a user with that e-mail address."], 404);
         }
 
     }

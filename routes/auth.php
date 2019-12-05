@@ -15,7 +15,7 @@ Route::group(['prefix' => 'user'], function () {
 
 //Password Manager
 Route::group(['prefix' => 'reset-password'], function () {
-    Route::post('/',            'Auth/ResetPasswordController@create'); //Envia solicitação de reset se senha.
-    Route::get('/{token}',      'Auth/ResetPasswordController@find'); //Valida Token recebido no email.
-    Route::post('reset',        'Auth/ResetPasswordController@reset'); //Recebe os novos dados para o reset de senha.
+    Route::post('/',            'Auth\ResetPasswordController@create'); //Envia solicitação de reset se senha.
+    Route::get('/{token}',      'Auth\ResetPasswordController@find'); //Valida Token recebido no email.
+    Route::post('reset',        'Auth\ResetPasswordController@reset'); //Recebe os novos dados para o reset de senha.
 });
