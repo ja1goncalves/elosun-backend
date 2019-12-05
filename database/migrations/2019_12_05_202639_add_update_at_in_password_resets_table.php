@@ -14,7 +14,7 @@ class AddUpdateAtInPasswordResetsTable extends Migration
     public function up()
     {
         Schema::table('password_resets', function (Blueprint $table) {
-            $table->timestamp('update_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
