@@ -93,7 +93,7 @@ class ResetPasswordService extends AppService
         $passwordReset = $this->repository->skipPresenter()->findWhere($where)->first();
         if (!$passwordReset) {
             return response()->json([
-                'message' => 'This password reset token is invalid.'
+                'message' => 'Esse token não pode ser usado pra mudar senha!'
             ], 404);
         }
 
@@ -101,12 +101,12 @@ class ResetPasswordService extends AppService
 
         if (!$user) {
             return response()->json([
-                'message' => "We can't find a user with that e-mail address."
+                'message' => "Não encontramos nenhum registro com esse e-mail :("
             ], 404);
         }
 
         $user['password'] = bcrypt($request->password);
-        $user = $this->userRepository->updateOrCreate($user);
+        $user = $this->userRepository->updateOrCreate($user->toArray());
 
         $data_send_mail = [
             'to' => $passwordReset->email,
@@ -119,7 +119,8 @@ class ResetPasswordService extends AppService
         $this->repository->delete($passwordReset->id);
 
         return response()->json([
-            'message' => 'This password reset success .'
+            'error' => false,
+            'message' => 'A senha senha foi mudada com sucesso :)'
         ], 200);
     }
 }
