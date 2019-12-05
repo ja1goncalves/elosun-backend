@@ -33,6 +33,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\ElectricStationRepository::class, \App\Repositories\ElectricStationRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\OrderRepository::class, \App\Repositories\OrderRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\OrdersStatusRepository::class, \App\Repositories\OrdersStatusRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\ResetPasswordRepository::class, \App\Repositories\ResetPasswordRepositoryEloquent::class);
         //:end-bindings:
     }
 }
