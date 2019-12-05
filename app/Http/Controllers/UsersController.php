@@ -44,4 +44,9 @@ class UsersController extends Controller
         $this->service = $service;
         $this->validator  = $validator;
     }
+
+    public function create(UserCreateRequest $request)
+    {
+        return $this->service->create($request->all());
+    }
 }
