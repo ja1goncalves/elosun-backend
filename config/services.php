@@ -34,4 +34,7 @@ return [
         'secret' => env('SPARKPOST_SECRET'),
     ],
 
+    'front-end' => [
+        'url' => env('FRONT_END'),
+    ],
 ];

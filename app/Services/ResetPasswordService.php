@@ -41,7 +41,7 @@ class ResetPasswordService extends AppService
                 ]
             );
             if (isset($user) && isset($passwordReset)){
-                $url_front = Config::get('services.provider_front.url');
+                $url_front = Config::get('services.front-end.url');
                 $data_send_mail = [
                     'to' => $passwordReset->email,
                     'subject' => 'Mudar senha',
@@ -52,11 +52,11 @@ class ResetPasswordService extends AppService
                 SendMailBySendGrid::dispatch($data_send_mail, 'password_reset')->delay(0.5);
             }
             return response()->json([
-                'message' => 'We have e-mailed your password reset link!'
+                'error' => false,
+                'message' => 'Enviamos um e-mail com um link para mudança de senha!'
             ]);
         }catch (\Exception $e){
-            \Log::debug($e);
-            return response()->json(['error' => true, 'message' => "We can't find a user with that e-mail address."], 404);
+            return response()->json(['error' => true, 'message' => "Não encontramos seu usuário ou coisa do tipo."], 404);
         }
 
     }

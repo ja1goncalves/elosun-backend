@@ -92,7 +92,7 @@
                                             <td class="head-mail" data-color="Text" data-size="Text" data-min="5" data-max="50" align="center" style="text-align:justify;font-weight:300;font-size:15px;letter-spacing:0.025em;line-height:26px;color:#686868;font-family:&#39;Coolvetica&#39;, sans-serif;mso-line-height-rule:exactly;padding-top:0;padding-bottom:0;padding-right:40px;padding-left:40px;">
                                                 <div style="width:50%;display:block;float:left;font-size:14px;">
                                                     <b>
-                                                        {{$data['provider']['gender'] == 'F' ? 'Cara' : 'Caro'}}, {{$data['provider']['name']}}
+                                                        {Olá, {{$data['user']['name']}}
                                                         <br>
                                                         Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta.
                                                         <br><br>
