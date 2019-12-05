@@ -67,19 +67,20 @@ class ResetPasswordService extends AppService
 
         if (!$passwordReset)
             return response()->json([
-                'message' => 'This password reset token is invalid.'
+                'error' => true,
+                'message' => 'Não encontramos um pedido de mudança com essa chave :(.'
             ], 404);
 
         if (Carbon::parse($passwordReset->updated_at)->addHours(6)->isPast()) {
-
             $this->repository->delete($passwordReset->id);
 
             return response()->json([
-                'message' => 'This password reset token expired.'
+                'error' => true,
+                'message' => 'O tempo para mudar a senha já passou :(.'
             ], 404);
         }
 
-        return response()->json($passwordReset);
+        return response()->json(['error' => false, 'data' => $passwordReset]);
     }
 
     public function reset($request)
