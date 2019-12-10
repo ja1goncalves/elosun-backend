@@ -46,13 +46,19 @@ class User extends Authenticatable implements Transformable
         'email_verified_at' => 'datetime',
     ];
 
-
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function userable()
+    public function provider()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Provider::class, 'user_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'user_id');
+    }
 }

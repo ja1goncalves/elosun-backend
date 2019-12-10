@@ -134,7 +134,11 @@ class OrderService extends AppService
     {
         $interval_date = Util::getIntervalDate($interval);
 
-        $orders = $this->repository->with('orderly')->findWhereBetween('created_at', $interval_date);
+        $orders = $this->repository
+            ->with('orderly')
+            ->with('status')
+            ->orderBy('end_watts')
+            ->findWhereBetween('created_at', $interval_date);
 
         $this->response['data'] = [
             'purchase' => $orders->where('type_order', Order::PURCHASE),

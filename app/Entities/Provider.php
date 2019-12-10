@@ -29,11 +29,11 @@ class Provider extends Model implements Transformable
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function user()
     {
-        return $this->morphOne(User::class, 'userable');
+        return $this->hasOne(User::class, 'user_id');
     }
 
     /**
