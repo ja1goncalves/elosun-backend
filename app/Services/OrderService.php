@@ -13,6 +13,8 @@ use App\Repositories\ClientRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProviderRepository;
 use App\Services\Traits\CrudMethods;
+use App\Util;
+use Carbon\Carbon;
 
 class OrderService extends AppService
 {
@@ -124,6 +126,22 @@ class OrderService extends AppService
             'url' => ''
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
+
+        return $this->response;
+    }
+
+    public function getByInterval($interval)
+    {
+        $interval_date = Util::getIntervalDate($interval);
+
+        $orders = $this->repository->with('orderly')->findWhereBetween('created_at', $interval_date);
+
+        $this->response['data'] = [
+            'purchase' => $orders->where('type_order', Order::PURCHASE),
+            'sale' => $orders->where('type_order', Order::SALE),
+            'total' => $orders->count()
+        ];
+        $this->response['error'] = false;
 
         return $this->response;
     }

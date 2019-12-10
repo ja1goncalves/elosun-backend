@@ -56,4 +56,15 @@ class OrdersController extends Controller
         $response = $this->service->purchase($request->all());
         return response()->json($response, $response['status']);
     }
+
+    public function getOrdersByIntervalDate(Request $request)
+    {
+        $request->validate([
+            'days' => 'required|min:1'
+        ]);
+
+        $response = $this->service->getByInterval($request->get('days'));
+
+        return response()->json($response, $response['error'] ? 500:200);
+    }
 }

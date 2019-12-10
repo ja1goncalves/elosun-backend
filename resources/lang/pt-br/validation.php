@@ -176,6 +176,8 @@ return [
         'comment'               => 'Comentário',
         'quotation'             => 'cotação',
         'birthday'              => 'Data de nascimento',
+        'days'                  => 'dias',
+        'day'                   => 'dia',
         'cellphone'             => 'Celular',
         'restriction'           => 'Restrição',
         'quotation_status_id'   => 'Status da cotação',

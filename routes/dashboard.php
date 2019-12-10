@@ -17,4 +17,5 @@ Route::group(['prefix' => 'distributors', 'middleware' => ['auth:api']], functio
 
 Route::group(['prefix' => 'orders', 'middleware' => ['auth:api']], function () {
     Route::resource('/', 'OrdersController', ['only' => ['index', 'show']]);
+    Route::get('/orders-by-days', 'OrdersController@getOrdersByIntervalDate');
 });
