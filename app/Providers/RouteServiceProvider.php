@@ -43,6 +43,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapAdminRoutes();
 
+        $this->mapDashboardRoutes();
+
         //
     }
 
@@ -89,6 +91,7 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/auth.php'));
     }
+
     /**
      * Define the "api" routes for the application.
      *
@@ -102,5 +105,20 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapDashboardRoutes()
+    {
+        Route::prefix('dashboard')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/dashboard.php'));
     }
 }
