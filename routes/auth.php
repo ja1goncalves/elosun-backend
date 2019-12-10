@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 
-Route::group(['prefix' => 'users'], function () {
+Route::group(['prefix' => 'user'], function () {
     Route::get('activate/{token}', 'AuthController@signupActivate'); //Ativação de usuario via token em email.
 
     //Session
