@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Repositories\EnergyDistributorRepository;
 use App\Services\Traits\CrudMethods;
+use function foo\func;
 
 class EnergyDistributorService extends AppService
 {
@@ -26,4 +27,22 @@ class EnergyDistributorService extends AppService
         $this->repository = $repository;
     }
 
+    public function populars()
+    {
+        try{
+            $distributors = $this->repository
+                ->withCount('electricAccounts')
+                ->withCount('electricStations')
+                ->all()
+                ->groupBy('name');
+
+            $this->response['data']['distributors'] = $distributors;
+            $this->response['error'] = false;
+        }catch (\Exception $e){
+            $this->response['message'] = $e->getMessage();
+            $this->response['error'] = true;
+        }
+
+        return $this->response;
+    }
 }

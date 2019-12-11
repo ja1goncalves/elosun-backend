@@ -44,4 +44,10 @@ class EnergyDistributorsController extends Controller
         $this->service = $service;
         $this->validator  = $validator;
     }
+
+    public function populars(Request $request)
+    {
+        $response = $this->service->populars();
+        return response()->json($response, $response['error'] ? 500 : 200);
+    }
 }

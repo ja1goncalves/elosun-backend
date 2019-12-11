@@ -14,11 +14,11 @@ Route::group(['prefix' => 'clients', 'middleware' => ['auth:api']], function () 
 });
 
 Route::group(['prefix' => 'distributors', 'middleware' => ['auth:api']], function () {
-    Route::resource('/', 'EnergyDistributorsController', ['only' => ['index', 'show']]);
-    Route::get('/populars', 'EnergyDistributorsController@populars');
+//    Route::resource('/', 'EnergyDistributorsController', ['only' => ['index', 'show']]);
+//    Route::get('/populars', 'EnergyDistributorsController@populars');
 });
 
 Route::group(['prefix' => 'orders', 'middleware' => ['auth:api']], function () {
-    Route::resource('/', 'OrdersController', ['only' => ['index', 'show']]);
-    Route::get('/by-days', 'OrdersController@getOrdersByIntervalDate');
+//    Route::resource('/', 'OrdersController', ['only' => ['index', 'show']]);
+//    Route::get('/by-days', 'OrdersController@getOrdersByIntervalDate');
 });

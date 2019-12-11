@@ -141,8 +141,8 @@ class OrderService extends AppService
             ->findWhereBetween('created_at', $interval_date);
 
         $this->response['data'] = [
-            'purchase' => $orders->where('type_order', Order::PURCHASE),
-            'sale' => $orders->where('type_order', Order::SALE),
+            'purchase' => $orders->where('type_order', Order::PURCHASE)->take(10),
+            'sale' => $orders->where('type_order', Order::SALE)->take(10),
             'total' => $orders->count()
         ];
         $this->response['error'] = false;
