@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface ProviderRepository extends RepositoryInterface
 {
-    //
+    public function bestByOrders($limit);
 }

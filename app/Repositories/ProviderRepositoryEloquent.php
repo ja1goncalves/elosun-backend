@@ -44,5 +44,15 @@ class ProviderRepositoryEloquent extends BaseRepository implements ProviderRepos
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
+
+    public function bestByOrders($limit)
+    {
+        return $this->model->newQuery()
+            ->limit($limit)
+            ->with('orders')
+            ->selectRaw('name, email, cpf_cnpj, SUM(orders.end_watts) as watts, COUNT(orders) as total_orders')
+            ->orderByRaw('SUM(orders.end_watts)');
+    }
+
 }

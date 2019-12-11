@@ -43,4 +43,10 @@ class ProvidersController extends Controller
         $this->service = $service;
         $this->validator  = $validator;
     }
+
+    public function bestsByOrders(Request $request)
+    {
+        $response = $this->service->bestsByOrders($request->query->get('limit', 15));
+        return response()->json($response, $response['error'] ? 500 : 200);
+    }
 }
