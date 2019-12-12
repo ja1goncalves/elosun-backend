@@ -49,7 +49,8 @@ class ResetPasswordController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'email'     => 'required|string|email',
+            'origin'    => 'required|string'
         ]);
         return $this->service->create($request->all());
     }

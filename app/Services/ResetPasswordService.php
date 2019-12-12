@@ -41,7 +41,7 @@ class ResetPasswordService extends AppService
                 ]
             );
             if (isset($user) && isset($passwordReset)){
-                $url_front = Config::get('services.front-end.url');
+                $url_front = Config::get("services.front-end.{$data['origin']}");
                 $data_send_mail = [
                     'to' => $passwordReset->email,
                     'subject' => 'Mudar senha',

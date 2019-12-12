@@ -35,6 +35,7 @@ return [
     ],
 
     'front-end' => [
-        'url' => env('FRONT_END'),
+        'manager' => env('FRONT_END_MANAGER'),
+        'api'     => env('FRONT_END_API'),
     ],
 ];
