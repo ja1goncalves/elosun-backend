@@ -22,8 +22,12 @@ class EnergyDistributor extends Model implements Transformable
      */
     protected $fillable = [
         'name',
+        'total_stations',
+        'total_ucs',
+        'potency_kW',
         'initials',
         'site',
+        'link_ucs',
     ];
 
     /**

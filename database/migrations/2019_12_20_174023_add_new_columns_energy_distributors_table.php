@@ -17,7 +17,8 @@ class AddNewColumnsEnergyDistributorsTable extends Migration
             $table->string('link_ucs', 50)->nullable()->after('site');
             $table->integer('total_stations')->default(0)->after('name');
             $table->integer('total_ucs')->default(0)->after('total_stations');
-            $table->float('potential_kW')->default(0.00)->after('total_ucs');
+            $table->float('potency_kW')->default(0.00)->after('total_ucs');
+            $table->string('initials', 50)->change();
         });
     }
 
