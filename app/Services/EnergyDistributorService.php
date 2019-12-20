@@ -45,4 +45,48 @@ class EnergyDistributorService extends AppService
 
         return $this->response;
     }
+
+    public function updateCrw($data)
+    {
+        $distributors = $data['distributors'];
+        try{
+            foreach ($distributors as $distributor){
+                $update = [
+                    'name' => $this->getNameDistributor($distributor['company']),
+                    'total_stations' => (int)$distributor['amount'],
+                    'total_ucs' => (int)$distributor['ucs'],
+                    'potency_kW' => (float)str_replace(',', '.', $distributor['potency']),
+                    'initials' => $this->getNameInitials($distributor['company']),
+                    'link_ucs' => $distributor['link']
+                ];
+
+                $this->repository->updateOrCreate([
+                        'name' => $update['name'],
+                        'link_ucs' => $update['link_ucs'],
+                        'initials' => $update['initials']
+                    ], $update);
+            }
+
+            $this->response['message'] = 'Distribuidoras de energia atualizadas!';
+        }catch (\Exception $e){
+            $this->response['error'] = true;
+            $this->response['message'] = $e->getMessage();
+            $this->response['status'] = 500;
+            \Log::error($e);
+        }
+
+        return $this->response;
+    }
+
+    private function getNameDistributor($name)
+    {
+        $name = explode('(', $name);
+        return trim($name[0]);
+    }
+
+    private function getNameInitials($name)
+    {
+        $name = explode('(', $name);
+        return trim($name[1], ')');
+    }
 }

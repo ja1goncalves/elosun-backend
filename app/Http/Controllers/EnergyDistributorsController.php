@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\CrudMethods;
+use App\Http\Requests\EnergyDistributorUpdateCrawlerRequest;
 use App\Services\EnergyDistributorService;
 use Illuminate\Http\Request;
 
@@ -48,6 +49,12 @@ class EnergyDistributorsController extends Controller
     public function populars(Request $request)
     {
         $response = $this->service->populars();
+        return response()->json($response, $response['error'] ? 500 : 200);
+    }
+
+    public function updateCrw(EnergyDistributorUpdateCrawlerRequest $request)
+    {
+        $response = $this->service->updateCrw($request->all());
         return response()->json($response, $response['error'] ? 500 : 200);
     }
 }

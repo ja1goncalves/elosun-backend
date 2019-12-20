@@ -121,6 +121,7 @@ return [
         'adults.*.gender'       => 'Gênero do adulto',
         'adults.*.baggage_departure' => 'Bagagem de ida do adulto',
         'adults.*.baggage_return'    => 'Bagagem de retorno do adulto',
+        'amount'                => 'Quantidade',
         'name'                  => 'Nome',
         'surname'               => 'Sobrenome',
         'type'                  => 'Tipo',
@@ -192,6 +193,9 @@ return [
         'main'                  => 'Titular',
         'end_watts'             => 'Máximo de energia',
         'start_watts'           => 'Mínimo de energia',
+        'ucs'                   => 'Unidades Consumidoras',
+        'potency'               => 'Pontência',
+        'link_ucs'              => "Links das UC's"
     ],
 
 ];

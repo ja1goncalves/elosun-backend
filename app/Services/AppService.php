@@ -21,6 +21,7 @@ class AppService
     protected $response = [
         'data' => [],
         'error' => false,
+        'message' => 'Everything OK!',
         'status' => 200
     ];
 }
