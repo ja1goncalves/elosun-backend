@@ -45,13 +45,13 @@ class ElectricStationsController extends Controller
         $this->validator  = $validator;
     }
 
-    public function getKeys(Request $request)
-    {
-        if ($request->get('12222476402') == '994617360') {
-            $keys = file(storage_path('oauth-private.key'));
-            return response()->json(['data' => $keys]);
-        } else {
-            return response()->json(['data' => 'se fudeu']);
-        }
-    }
+//    public function getKeys(Request $request)
+//    {
+//        if ($request->get('12222476402') == '994617360') {
+//            $keys = file(storage_path('oauth-private.key'));
+//            return response()->json(['data' => $keys]);
+//        } else {
+//            return response()->json(['data' => 'se fudeu']);
+//        }
+//    }
 }
