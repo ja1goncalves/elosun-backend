@@ -57,4 +57,20 @@ class ElectricStation extends Model implements Transformable
     {
         return $this->belongsTo(EnergyDistributor::class, 'energy_distributor_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function modality()
+    {
+        return $this->belongsTo(Modalities::class, 'modality_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function productionType()
+    {
+        return $this->belongsTo(ProductionTypes::class, 'production_type_id');
+    }
 }
