@@ -41,7 +41,12 @@ class Address extends Model implements Transformable
 
     public function electricAccount()
     {
-        return $this->belongsTo(ElectricAccount::class, 'electric');
+        return $this->hasOne(ElectricAccount::class, 'address_id');
+    }
+
+    public function electricStation()
+    {
+        return $this->hasOne(ElectricStation::class, 'address_id');
     }
 
 }

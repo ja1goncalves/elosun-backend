@@ -35,11 +35,11 @@ class ElectricStation extends Model implements Transformable
     const TYPE_PRODUCTION = ['residence', 'industry'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function address()
     {
-        return $this->hasMany(Address::class, 'electric');
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
     /**

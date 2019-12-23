@@ -40,11 +40,11 @@ class ElectricAccount extends Model implements Transformable
     const PHASES = ['mono', 'bi', 'tri'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function address()
     {
-        return $this->hasMany(Address::class, 'electric');
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
     /**
