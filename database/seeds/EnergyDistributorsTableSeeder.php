@@ -15,13 +15,13 @@ class EnergyDistributorsTableSeeder extends Seeder
         $csv = array_map('str_getcsv', file(storage_path('app/public/csv/aneel-companies-csv.csv')));
         unset($csv[0]);
 
-        foreach ($csv as $element){
+        foreach ($csv as $element) {
             $distributor = [
-                'name' => $this->getNameDistributor($element[1]),
+                'name' => $element[0],
                 'total_stations' => (int)$element[2],
                 'total_ucs' => (int)$element[3],
-                'potency_kW' => (float)str_replace(',', '.', $element[4]),
-                'initials' => $this->getNameInitials($element[1]),
+                'potency_kW' => (float)str_replace(',', '.', str_replace('.', '', $element[4])),
+                'initials' => $element[1],
                 'link_ucs' => $element[5],
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
@@ -29,17 +29,5 @@ class EnergyDistributorsTableSeeder extends Seeder
 
             DB::table('energy_distributors')->insert($distributor);
         }
-    }
-
-    public function getNameDistributor($name)
-    {
-        $name = explode('(', $name);
-        return trim($name[0]);
-    }
-
-    public function getNameInitials($name)
-    {
-        $name = explode('(', $name);
-        return trim($name[1], ')');
     }
 }
