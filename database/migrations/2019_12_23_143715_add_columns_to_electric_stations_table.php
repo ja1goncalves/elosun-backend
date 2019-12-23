@@ -21,7 +21,7 @@ class AddColumnsToElectricStationsTable extends Migration
         Schema::table('electric_stations', function (Blueprint $table) {
             $table->string("name", 150)->after('id');
             $table->dropColumn('number');
-            $table->string("code_gd", 20);
+            $table->string("code_gd", 20)->after('name');
             $table->string("holder", 150)->after('code_gd');
             $table->dropColumn('type_production');
             $table->unsignedInteger('production_type_id')->after('holder');
