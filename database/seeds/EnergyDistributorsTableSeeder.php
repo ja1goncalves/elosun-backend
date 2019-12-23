@@ -12,7 +12,7 @@ class EnergyDistributorsTableSeeder extends Seeder
      */
     public function run()
     {
-        $csv = array_map('str_getcsv', file(storage_path('app/public/aneel-companies-csv.csv')));
+        $csv = array_map('str_getcsv', file(storage_path('app/public/csv/aneel-companies-csv.csv')));
         unset($csv[0]);
 
         foreach ($csv as $element){
