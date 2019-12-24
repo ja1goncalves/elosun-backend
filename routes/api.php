@@ -6,5 +6,5 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
-Route::post('order/sale', 'OrdersController@sale');
-Route::post('order/purchase', 'OrdersController@purchase');
+Route::post('order/sale',       'OrdersController@sale');
+Route::post('order/purchase',   'OrdersController@purchase');

@@ -11,16 +11,25 @@ class MovideskService
     /** @var Client $httpClient */
     private $httpClient;
 
+    /**
+     * MovideskService constructor.
+     */
     public function __construct()
     {
         $this->httpClient = new Client();
     }
 
+    /**
+     * @return \Illuminate\Config\Repository|mixed
+     */
     private function getUrl()
     {
         return config('movidesk.url');
     }
 
+    /**
+     * @return array
+     */
     private function getHeaders()
     {
         return [
@@ -28,11 +37,19 @@ class MovideskService
         ];
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
     private function getParams($data)
     {
         return $data;
     }
 
+    /**
+     * @param $data
+     * @return array
+     */
     public function sendToMovidesk($data)
     {
         try {

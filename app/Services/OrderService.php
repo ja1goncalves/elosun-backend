@@ -41,30 +41,39 @@ class OrderService extends AppService
     protected $address;
 
     /**
-     * ClientsController constructor.
-     *
+     * @var MovideskService
+     */
+    protected $movideskService;
+
+    /**
+     * OrderService constructor.
      * @param OrderRepository $repository
      * @param ProviderRepository $provider
      * @param AddressRepository $address
      * @param ClientRepository $client
+     * @param MovideskService $movideskService
      */
-    public function __construct(OrderRepository $repository, ProviderRepository $provider, AddressRepository $address,
-                                ClientRepository $client)
+    public function __construct(OrderRepository     $repository,
+                                ProviderRepository  $provider,
+                                AddressRepository   $address,
+                                ClientRepository    $client,
+                                MovideskService     $movideskService)
     {
-        $this->repository = $repository;
-        $this->provider = $provider;
-        $this->address = $address;
-        $this->client = $client;
+        $this->repository       = $repository;
+        $this->provider         = $provider;
+        $this->address          = $address;
+        $this->client           = $client;
+        $this->movideskService  = $movideskService;
     }
 
     public function sale(array $data)
     {
         $provider = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'] ?? null,
+            'name'      => $data['name'],
+            'email'     => $data['email'],
+            'phone'     => $data['phone'] ?? null,
             'cellphone' => $data['cellphone'],
-            'cpf_cnpj' => $data['cpf_cnpj'] ?? null
+            'cpf_cnpj'  => $data['cpf_cnpj'] ?? null
         ];
 
         $provider = $this->provider->updateOrCreate($provider);
@@ -72,24 +81,50 @@ class OrderService extends AppService
         $address = $provider->addresses()->updateOrCreate($data['address']);
 
         $order = [
-            'start_watts' => $data['start_watts'],
-            'end_watts' => $data['end_watts'],
-            'type_order' => Order::SALE,
-            'order_status_id' => 2
+            'start_watts'       => $data['start_watts'],
+            'end_watts'         => $data['end_watts'],
+            'type_order'        => Order::SALE,
+            'order_status_id'   => 2
         ];
 
         $this->response['data']['provider'] = $provider;
-        $this->response['data']['address'] = $address;
-        $this->response['data']['order'] = $provider->orders()->create($order);
+        $this->response['data']['address']  = $address;
+        $this->response['data']['order']    = $provider->orders()->create($order);
 
         $data_send_mail = [
-            'to' => $provider['email'],
-            'subject' => 'Confirmar cadastro de venda',
-            'user' => $provider,
-            'order' => $this->response['data']['order'],
-            'url' => ''
+            'to'        => $provider['email'],
+            'subject'   => 'Confirmar cadastro de venda',
+            'user'      => $provider,
+            'order'     => $this->response['data']['order'],
+            'url'       => ''
         ];
+
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
+
+        $params = [
+            'type'   	    => 1,
+            'subject'       => 'Confirmação de cadastro de venda',
+            'createdBy'     => [
+                'id'            => '1386645053',
+                'personType'    => 1,
+                'profileType'   => 2
+            ],
+            'clients'       => [
+                [
+                    'id'            => '1386645053',
+                    'personType'    => 2,
+                    'profileType'   => 2
+                ]
+            ],
+            'actions'       => [
+                [
+                    'type'          => 2,
+                    'description'   => 'O fornecedor de email: ' . $provider['email'] . 'deseja confimar o cadastro da venda do pedido de nº ' . $this->response['data']['order'] . '.'
+                ]
+            ]
+        ];
+
+        $this->movideskService->sendToMovidesk($params);
 
         return $this->response;
     }
