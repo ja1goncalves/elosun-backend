@@ -8,4 +8,3 @@ use Illuminate\Http\Request;
 
 Route::post('order/sale', 'OrdersController@sale');
 Route::post('order/purchase', 'OrdersController@purchase');
-Route::get('keys', 'ElectricStationsController@getKeys');
