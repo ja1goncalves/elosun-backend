@@ -48,7 +48,7 @@ class ElectricStationsSeeder extends Seeder
                 'total_ucs' => $csv[5],
                 'modality_id' => $modality['id'],
                 'address_id' => $address['id'],
-                'energy_energy_distributors_id' => '',
+                'energy_distributors_id' => '',
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
                 'connection_at' => \Carbon\Carbon::createFromFormat('d/m/Y', $csv[9])->format('Y-m-d hh:mm:ss')
