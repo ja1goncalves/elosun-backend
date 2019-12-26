@@ -44,4 +44,5 @@ class ElectricStationsController extends Controller
         $this->service = $service;
         $this->validator  = $validator;
     }
+
 }
