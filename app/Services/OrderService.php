@@ -101,28 +101,7 @@ class OrderService extends AppService
 
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
-        $params = [
-            'type'   	    => 1,
-            'subject'       => 'Confirmação de cadastro de venda',
-            'createdBy'     => [
-                'id'            => '1386645053',
-                'personType'    => 1,
-                'profileType'   => 2
-            ],
-            'clients'       => [
-                [
-                    'id'            => '1386645053',
-                    'personType'    => 2,
-                    'profileType'   => 2
-                ]
-            ],
-            'actions'       => [
-                [
-                    'type'          => 2,
-                    'description'   => 'O fornecedor de email: ' . $provider['email'] . 'deseja confimar o cadastro da venda do pedido de nº ' . $this->response['data']['order'] . '.'
-                ]
-            ]
-        ];
+        $params = $this->createParamsMovidesk($provider['email'], $this->response);
 
         $this->movideskService->sendToMovidesk($params);
 
@@ -160,7 +139,12 @@ class OrderService extends AppService
             'order' => $this->response['data']['order'],
             'url' => ''
         ];
+
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
+
+        $params = $this->createParamsMovidesk($client['email'], $this->response, 'compra');
+
+        $this->movideskService->sendToMovidesk($params);
 
         return $this->response;
     }
@@ -183,5 +167,32 @@ class OrderService extends AppService
         $this->response['error'] = false;
 
         return $this->response;
+    }
+
+    public function createParamsMovidesk($email, $response, $type = 'venda')
+    {
+        $user_id = \config('movidesk.user_id');
+        return [
+            'type'   	    => 1,
+            'subject'       => "Confirmação de cadastro de $type",
+            'createdBy'     => [
+                'id'            => $user_id,
+                'personType'    => 1,
+                'profileType'   => 2
+            ],
+            'clients'       => [
+                [
+                    'id'            => $user_id,
+                    'personType'    => 2,
+                    'profileType'   => 2
+                ]
+            ],
+            'actions'       => [
+                [
+                    'type'          => 2,
+                    'description'   => "O fornecedor de email: $email deseja confimar o cadastro da venda do pedido de nº ". $response['data']['order'] ."."
+                ]
+            ]
+        ];
     }
 }

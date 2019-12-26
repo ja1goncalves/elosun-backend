@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\Entities\Client;
+use GuzzleHttp\Client;
 
 class MovideskService
 {
