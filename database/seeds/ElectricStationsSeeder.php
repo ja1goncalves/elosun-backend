@@ -14,7 +14,7 @@ class ElectricStationsSeeder extends Seeder
     {
         $file = file(storage_path('app/public/csv/aneel-units-csv.csv'));
         unset($file[0]);
-
+        $i = 0;
         foreach ($file as $item) {
             $csv = str_getcsv($item, ';');
 
@@ -52,10 +52,12 @@ class ElectricStationsSeeder extends Seeder
                 'energy_distributor_id' => $energy_distributor['id'],
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
-                'connection_at' => \Carbon\Carbon::createFromFormat('d/m/Y', $csv[10])->format('Y-m-d hh:mm:ss')
+                'connection_at' => \Carbon\Carbon::createFromFormat('d/m/Y', $csv[10])->format('Y-m-d h:m:s')
             ];
 
             DB::table('electric_stations')->insert($station);
+            echo "\n{$i} - {$station['code_gd']}";
+            $i++;
         }
     }
 }

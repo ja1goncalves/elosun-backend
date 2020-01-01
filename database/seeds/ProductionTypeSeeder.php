@@ -11,7 +11,15 @@ class ProductionTypeSeeder extends Seeder
      */
     public function run()
     {
-        $productions = ['Residencial', 'Comercial', 'Industrial', 'Rural'];
+        $productions = [
+            'Residencial',
+            'Comercial',
+            'Industrial',
+            'Rural',
+            'Poder Público',
+            'Serviço Público',
+            'Iluminação pública'
+        ];
         foreach ($productions as $production){
             $insert = [
                 'class' =>$production,

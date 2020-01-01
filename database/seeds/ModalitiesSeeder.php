@@ -12,7 +12,12 @@ class ModalitiesSeeder extends Seeder
      */
     public function run()
     {
-        $modalities = ['Geracao na propria UC', 'Autoconsumo remoto', 'Geracao compartilhada'];
+        $modalities = [
+            'Geracao na propria UC',
+            'Autoconsumo remoto',
+            'Geracao compartilhada',
+            'Multiplas UC'
+        ];
         foreach ($modalities as $modality){
             $inset = [
                 'description' =>$modality,

@@ -18,6 +18,7 @@ class ColumnsNullableElectricStationsTable extends Migration
             $table->unsignedInteger('provider_id')->nullable()->change();
             $table->unsignedInteger('energy_distributor_id')->nullable()->change();
             $table->dateTime('connection_at')->nullable()->change();
+            $table->softDeletes()->after('updated_at');
         });
     }
 
