@@ -25,7 +25,7 @@ class AddColumnsToElectricStationsTable extends Migration
             $table->string("holder", 150)->after('code_gd');
             $table->dropColumn('type_production');
             $table->unsignedInteger('production_type_id')->after('holder');
-            $table->string('subgroup', 2)->after('production_type_id');
+            $table->string('subgroup', 5)->after('production_type_id');
             $table->dropColumn('plates');
             $table->dropColumn('production');
             $table->unsignedDecimal('potency_kW')->default(0)->after('area');
