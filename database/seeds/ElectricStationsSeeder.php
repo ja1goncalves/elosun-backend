@@ -41,15 +41,11 @@ class ElectricStationsSeeder extends Seeder
             $address = \App\Entities\Address::query()->updateOrCreate($address, $address)->toArray();
 
             $station = [
-                'name' => '',
                 'code_gd' => $csv[0],
                 'holder' => $csv[2],
                 'production_type_id' => $production_type['id'],
                 'subgroup' => $csv[4],
-                'area' => '',
                 'potency_kW' => (float)str_replace(',', '.', str_replace("\\", '', $csv[13])),
-                'inverters' => '',
-                'modules' => '',
                 'total_ucs' => $csv[6],
                 'modality_id' => $modality['id'],
                 'address_id' => $address['id'],
