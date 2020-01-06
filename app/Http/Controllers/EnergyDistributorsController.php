@@ -57,9 +57,4 @@ class EnergyDistributorsController extends Controller
         $response = $this->service->updateCrw($request->all());
         return response()->json($response, $response['error'] ? 500 : 200);
     }
-
-    public function showWithStations($id)
-    {
-        return response()->json($this->service->showWithStations($id));
-    }
 }

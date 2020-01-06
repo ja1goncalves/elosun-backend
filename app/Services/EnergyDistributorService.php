@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Entities\EnergyDistributor;
 use App\Repositories\EnergyDistributorRepository;
 use App\Services\Traits\CrudMethods;
 use function foo\func;
@@ -76,11 +77,6 @@ class EnergyDistributorService extends AppService
         }
 
         return $this->response;
-    }
-
-    public function showWithStations($id)
-    {
-        return $this->repository->with('electricStations')->find($id);
     }
 
     private function getNameDistributor($name)

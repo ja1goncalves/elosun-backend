@@ -9,7 +9,9 @@ use App\Services\Traits\CrudMethods;
 
 class ElectricStationService extends AppService
 {
-    use CrudMethods;
+    use CrudMethods {
+        all    as public processAll;
+    }
 
     /**
      * @var ElectricStationRepository
@@ -24,6 +26,15 @@ class ElectricStationService extends AppService
     public function __construct(ElectricStationRepository $repository)
     {
         $this->repository = $repository;
+    }
+
+    public function all($limit = 15)
+    {
+        $this->repository
+            ->resetCriteria()
+            ->pushCriteria(app('App\Criteria\FilterElectricStationsByDistributorsCriteria'));
+
+        return $this->processAll($limit);
     }
 
 }

@@ -20,8 +20,13 @@ Route::group(['prefix' => 'orders', 'middleware' => ['auth:api']], function () {
 
 Route::group(['prefix' => 'distributors', 'middleware' => ['auth:api']], function () {
     Route::resource('/', 'EnergyDistributorsController', ['except' => ['create', 'delete']]);
+    Route::get('/{id}', 'EnergyDistributorsController@show');
     Route::post('/update-list', 'EnergyDistributorsController@updateCrw');
-    Route::get('/stations/{id}', 'EnergyDistributorsController@showWithStations');
+});
+
+Route::group(['prefix' => 'stations', 'middleware' => ['auth:api']], function () {
+    Route::resource('/', 'ElectricStationsController', ['except' => ['create', 'delete']]);
+    Route::get('/{id}', 'ElectricStationsController@show');
 });
 
 Route::group(['prefix' => 'stock', 'middleware' => ['auth:api']], function () {
