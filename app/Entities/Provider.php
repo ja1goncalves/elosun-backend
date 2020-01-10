@@ -26,14 +26,15 @@ class Provider extends Model implements Transformable
         'cpf_cnpj',
         'phone',
         'cellphone',
+        'user_id',
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
-        return $this->hasOne(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

@@ -191,17 +191,21 @@ class OrderService extends AppService
         $order = $this->repository->getOrderWithOrderlyAndAddress($data['order']['id']);
 
         if ($order->orderly_type == Provider::class) {
+            $user = $this->providerService->addUserProvider($data['provider']['id'], $data['provider']);
+            $data['provider']['user_id'] = $user->id;
             $provider = $this->provider->update($data['provider'], $data['provider']['id']);
-            $user = $this->providerService->addUserProvider($provider->id, $data['provider']);
-            $address = $provider->addresses()->update($data['provider']['address'], $data['provider']['address']['id']);
+            $address = $this->address->update($data['provider']['address'], $data['provider']['address']['id']);
 
-            $station = $provider->electricStations()
-                ->where('code_gd', '=', $data['provider']['station']['code_gd'])
+            $station = $this->electricStation
+                ->with('address')
+                ->findWhere(['code_gd' => strtoupper($data['provider']['station']['code_gd'])])
                 ->first();
-
             $station->provider_id = $provider->id;
-            $station = $provider->electricStations()->update($station, $station->id);
-            $address_station = $station->address()->update($data['provider']['station']['address']);
+            $station = $this->electricStation->update($station->toArray(), $station->id);
+
+            if (!is_null($data['provider']['station']['address'])) {
+                $this->address->update($data['provider']['station']['address'], $station->address->id);
+            }
         } else if ($order->orderly_type == Client::class) {
             $client = $this->client->update($data['client'], $data['client']['id']);
             $user = $this->clientService->addUseClient($client->id, $data['client']);
