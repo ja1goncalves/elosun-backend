@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Enums\PhasesEnum;
 use App\Repositories\ElectricAccountRepository;
 use App\Services\Traits\CrudMethods;
 
@@ -24,5 +25,11 @@ class ElectricAccountService extends AppService
     public function __construct(ElectricAccountRepository $repository)
     {
         $this->repository = $repository;
+    }
+
+    public function allPhases()
+    {
+        $this->responseOK['data'] = PhasesEnum::allPhases();
+        return $this->responseOK;
     }
 }

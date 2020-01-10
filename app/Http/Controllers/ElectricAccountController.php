@@ -44,4 +44,9 @@ class ElectricAccountController extends Controller
         $this->service = $service;
         $this->validator  = $validator;
     }
+
+    public function allPhases()
+    {
+        return response()->json($this->service->allPhases());
+    }
 }
