@@ -50,8 +50,8 @@ class UsersController extends Controller
         return $this->service->create($request->all());
     }
 
-    public function userPlus(Request $request)
+    public function getUserProviderOrClient()
     {
-        return response()->json($this->service->getUserWithProviderOrClient($request->get('email')));
+        return response()->json($this->service->getUserProviderOrClient());
     }
 }

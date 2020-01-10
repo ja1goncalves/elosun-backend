@@ -35,20 +35,20 @@ class UserService extends AppService
         return Auth::user();
     }
 
-    public function getUserWithProviderOrClient($email)
+    public function getUserProviderOrClient()
     {
-        $user = $this->repository
-            ->with('provider')
+        $this->responseOK['data'] = $this->repository
             ->with('client')
-            ->findWhere(['email' => $email])
+            ->with('provider')
+            ->findWhere(['email' => Auth::user()['email']])
             ->first();
 
-        if(!$user) {
+        if(!$this->responseOK['data']) {
             $this->responseERROR['message'] = 'Não foi possível encontrar esse usuário';
             $this->responseERROR['status'] = 404;
             return $this->responseERROR;
         }
 
-        return $this->responseOK['data'] = $user;
+        return $this->responseOK;
     }
 }
