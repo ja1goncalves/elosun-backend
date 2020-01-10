@@ -30,12 +30,28 @@ class ClientService extends AppService
     public function bestsByOrders($limit = 15)
     {
         try{
-            $this->response['data']['clients'] = $this->repository->bestByOrders($limit);
+            $this->responseOK['data']['clients'] = $this->repository->bestByOrders($limit);
         }catch (\Exception $e){
-            $this->response['message'] = $e->getMessage();
-            $this->response['error'] = true;
+            $this->responseOK['message'] = $e->getMessage();
+            $this->responseOK['error'] = true;
         }
 
-        return $this->response;
+        return $this->responseOK;
+    }
+
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     */
+    public function addUseClient(int $id, array $data)
+    {
+        $client = $this->repository->find($id);
+        return $client->user()->with('client')->create([
+            'name' => $client->name,
+            'email' => $client->email,
+            'password' => bcrypt($data['password'])
+        ]);
     }
 }

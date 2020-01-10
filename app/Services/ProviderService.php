@@ -29,12 +29,27 @@ class ProviderService extends AppService
     public function bestsByOrders($limit = 15)
     {
         try{
-            $this->response['data']['clients'] = $this->repository->bestByOrders($limit);
+            $this->responseOK['data']['clients'] = $this->repository->bestByOrders($limit);
         }catch (\Exception $e){
-            $this->response['message'] = $e->getMessage();
-            $this->response['error'] = true;
+            $this->responseOK['message'] = $e->getMessage();
+            $this->responseOK['error'] = true;
         }
 
-        return $this->response;
+        return $this->responseOK;
+    }
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     */
+    public function addUserProvider(int $id, array $data)
+    {
+        $provider = $this->repository->find($id);
+        return $provider->user()->with('provider')->create([
+            'name' => $provider->name,
+            'email' => $provider->email,
+            'password' => bcrypt($data['password'])
+        ]);
     }
 }

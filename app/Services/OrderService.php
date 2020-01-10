@@ -5,16 +5,19 @@ namespace App\Services;
 
 
 use App\Entities\Client;
+use App\Entities\ElectricStation;
 use App\Entities\Order;
 use App\Entities\Provider;
 use App\Jobs\SendMailBySendGrid;
 use App\Repositories\AddressRepository;
 use App\Repositories\ClientRepository;
+use App\Repositories\ElectricStationRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProviderRepository;
 use App\Services\Traits\CrudMethods;
 use App\Util;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class OrderService extends AppService
 {
@@ -41,20 +44,42 @@ class OrderService extends AppService
     protected $address;
 
     /**
+     * @var ElectricStationRepository
+     */
+    protected $electricStation;
+
+    /**
+     * @var ProviderService
+     */
+    protected $providerService;
+
+    /**
+     * @var ClientService
+     */
+    protected $clientService;
+
+    /**
      * ClientsController constructor.
      *
      * @param OrderRepository $repository
      * @param ProviderRepository $provider
      * @param AddressRepository $address
      * @param ClientRepository $client
+     * @param ElectricStationRepository $electricStation
+     * @param ProviderService $providerService
+     * @param ClientService $clientService
      */
     public function __construct(OrderRepository $repository, ProviderRepository $provider, AddressRepository $address,
-                                ClientRepository $client)
+                                ClientRepository $client, ElectricStationRepository $electricStation,
+                                ProviderService $providerService, ClientService $clientService)
     {
         $this->repository = $repository;
         $this->provider = $provider;
         $this->address = $address;
         $this->client = $client;
+        $this->electricStation = $electricStation;
+        $this->providerService = $providerService;
+        $this->clientService = $clientService;
     }
 
     public function sale(array $data)
@@ -78,20 +103,21 @@ class OrderService extends AppService
             'order_status_id' => 2
         ];
 
-        $this->response['data']['provider'] = $provider;
-        $this->response['data']['address'] = $address;
-        $this->response['data']['order'] = $provider->orders()->create($order);
+        $this->responseOK['data']['provider'] = $provider;
+        $this->responseOK['data']['address'] = $address;
+        $this->responseOK['data']['order'] = $provider->orders()->create($order);
 
+        $url_front = Config::get('services.provider_front.url');
         $data_send_mail = [
             'to' => $provider['email'],
             'subject' => 'Confirmar cadastro de venda',
             'user' => $provider,
-            'order' => $this->response['data']['order'],
-            'url' => ''
+            'order' => $this->responseOK['data']['order'],
+            'url' => url("{$url_front}/cadastro-fornecedor/".$this->responseOK['data']['order']['id'])
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
-        return $this->response;
+        return $this->responseOK;
     }
 
     public function purchase(array $data)
@@ -114,20 +140,21 @@ class OrderService extends AppService
             'order_status_id' => 2
         ];
 
-        $this->response['data']['client'] = $client;
-        $this->response['data']['address'] = $address;
-        $this->response['data']['order'] = $client->orders()->create($order);
+        $this->responseOK['data']['client'] = $client;
+        $this->responseOK['data']['address'] = $address;
+        $this->responseOK['data']['order'] = $client->orders()->create($order);
 
+        $url_front = Config::get('services.provider_front.url');
         $data_send_mail = [
             'to' => $client['email'],
             'subject' => 'Confirmar cadastro de compra',
             'user' => $client,
-            'order' => $this->response['data']['order'],
-            'url' => ''
+            'order' => $this->responseOK['data']['order'],
+            'url' => url("{$url_front}/cadastro-fornecedor/".$this->responseOK['data']['order']['id'])
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
-        return $this->response;
+        return $this->responseOK;
     }
 
     public function getByInterval($interval)
@@ -140,13 +167,60 @@ class OrderService extends AppService
             ->orderBy('end_watts')
             ->findWhereBetween('created_at', $interval_date);
 
-        $this->response['data'] = [
+        $this->responseOK['data'] = [
             'purchase' => $orders->where('type_order', Order::PURCHASE)->take(10),
             'sale' => $orders->where('type_order', Order::SALE)->take(10),
             'total' => $orders->count()
         ];
-        $this->response['error'] = false;
+        $this->responseOK['error'] = false;
 
-        return $this->response;
+        return $this->responseOK;
+    }
+
+    public function getOrderly(int $id)
+    {
+        return $this->repository->getOrderWithOrderlyAndAddress($id);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function updateOrderly(array $data)
+    {
+        $order = $this->repository->getOrderWithOrderlyAndAddress($data['order']['id']);
+
+        if ($order->orderly_type == Provider::class) {
+            $provider = $this->provider->update($data['provider'], $data['provider']['id']);
+            $user = $this->providerService->addUserProvider($provider->id, $data['provider']);
+            $address = $provider->addresses()->update($data['provider']['address'], $data['provider']['address']['id']);
+
+            $station = $provider->electricStations()
+                ->where('code_gd', '=', $data['provider']['station']['code_gd'])
+                ->first();
+
+            $station->provider_id = $provider->id;
+            $station = $provider->electricStations()->update($station, $station->id);
+            $address_station = $station->address()->update($data['provider']['station']['address']);
+        } else if ($order->orderly_type == Client::class) {
+            $client = $this->client->update($data['client'], $data['client']['id']);
+            $user = $this->clientService->addUseClient($client->id, $data['client']);
+            $address = $client->addresses()->update($data['client']['address'], $data['client']['address']['id']);
+
+            $account = $client->electricAccounts()->create($data['client']['account']);
+            $address_account = $account->address()->updateOrCreate($data['client']['account']['address'], $data['client']['account']['address']);
+        } else {
+            $this->responseERROR['message'] = 'O pedido é inválido, pois não tem comprador ou vendedor!';
+            return $this->responseERROR;
+        }
+
+        return [
+            'user' => $user,
+            'provider' => $provider ?? null,
+            'client' => $client ?? null,
+            'address' => $address,
+            'account' => $account ?? null,
+            'station' => $station ?? null,
+        ];
     }
 }

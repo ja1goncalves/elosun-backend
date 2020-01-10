@@ -37,14 +37,14 @@ class EnergyDistributorService extends AppService
                 ->all()
                 ->groupBy('name');
 
-            $this->response['data']['distributors'] = $distributors;
-            $this->response['error'] = false;
+            $this->responseOK['data']['distributors'] = $distributors;
+            $this->responseOK['error'] = false;
         }catch (\Exception $e){
-            $this->response['message'] = $e->getMessage();
-            $this->response['error'] = true;
+            $this->responseOK['message'] = $e->getMessage();
+            $this->responseOK['error'] = true;
         }
 
-        return $this->response;
+        return $this->responseOK;
     }
 
     public function updateCrw($data)
@@ -68,15 +68,15 @@ class EnergyDistributorService extends AppService
                     ], $update);
             }
 
-            $this->response['message'] = 'Distribuidoras de energia atualizadas!';
+            $this->responseOK['message'] = 'Distribuidoras de energia atualizadas!';
         }catch (\Exception $e){
-            $this->response['error'] = true;
-            $this->response['message'] = $e->getMessage();
-            $this->response['status'] = 500;
+            $this->responseOK['error'] = true;
+            $this->responseOK['message'] = $e->getMessage();
+            $this->responseOK['status'] = 500;
             \Log::error($e);
         }
 
-        return $this->response;
+        return $this->responseOK;
     }
 
     private function getNameDistributor($name)

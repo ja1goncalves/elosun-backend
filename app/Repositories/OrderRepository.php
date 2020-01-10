@@ -11,5 +11,9 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface OrderRepository extends RepositoryInterface
 {
-    //
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getOrderWithOrderlyAndAddress(int $id);
 }

@@ -47,18 +47,18 @@ class User extends Authenticatable implements Transformable
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function provider()
     {
-        return $this->belongsTo(Provider::class, 'user_id');
+        return $this->hasOne(Provider::class, 'user_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function client()
     {
-        return $this->belongsTo(Client::class, 'user_id');
+        return $this->hasOne(Client::class, 'user_id');
     }
 }

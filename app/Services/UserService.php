@@ -34,4 +34,13 @@ class UserService extends AppService
     {
         return Auth::user();
     }
+
+    public function getUserWithProviderOrClient($email)
+    {
+        return $this->repository
+            ->with('provider')
+            ->with('client')
+            ->findWhere(['email' => $email])
+            ->first();
+    }
 }

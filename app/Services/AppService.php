@@ -18,10 +18,17 @@ namespace App\Services;
  */
 class AppService
 {
-    protected $response = [
+    protected $responseOK = [
         'data' => [],
         'error' => false,
         'message' => 'Everything OK!',
         'status' => 200
+    ];
+
+    protected $responseERROR = [
+        'data' => [],
+        'error' => true,
+        'message' => 'Any error occurrence!',
+        'status' => 500
     ];
 }

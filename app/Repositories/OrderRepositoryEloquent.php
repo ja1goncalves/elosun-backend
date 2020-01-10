@@ -44,5 +44,21 @@ class OrderRepositoryEloquent extends BaseRepository implements OrderRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed|null
+     */
+    public function getOrderWithOrderlyAndAddress(int $id)
+    {
+        return $this->model->newQuery()
+            ->with([
+                'orderly.addresses' => function ($q) {
+                    return $q
+                        ->where('state', '!=', null)
+                        ->where('zip_code', '=', null)
+                        ->where('city', '=', null);
+                }
+            ])->find($id, ['id', 'type_order', 'orderly_type', 'orderly_id']);
+    }
 }
