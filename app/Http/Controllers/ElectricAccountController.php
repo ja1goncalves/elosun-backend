@@ -49,4 +49,9 @@ class ElectricAccountController extends Controller
     {
         return response()->json($this->service->allPhases());
     }
+
+    public function allTypeAddress()
+    {
+        return response()->json($this->service->allTypeAddress());
+    }
 }

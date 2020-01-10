@@ -32,4 +32,9 @@ class ElectricAccountService extends AppService
         $this->responseOK['data'] = PhasesEnum::allPhases();
         return $this->responseOK;
     }
+
+    public function allTypeAddress()
+    {
+
+    }
 }

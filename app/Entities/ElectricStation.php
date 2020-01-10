@@ -30,10 +30,6 @@ class ElectricStation extends Model implements Transformable
         'energy_distributor_id',
     ];
 
-    const RESIDENCE = 'residence';
-    const INDUSTRY = 'industry';
-    const TYPE_PRODUCTION = ['residence', 'industry'];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

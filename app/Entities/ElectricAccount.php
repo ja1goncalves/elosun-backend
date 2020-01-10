@@ -30,15 +30,6 @@ class ElectricAccount extends Model implements Transformable
         'energy_distributor_id',
     ];
 
-    const RESIDENCE = 'residence';
-    const INDUSTRY = 'industry';
-    const TYPE_ADDRESS = ['residence', 'industry'];
-
-    const MONOPHASIC = 'mono';
-    const BIPHASIC = 'bi';
-    const TRIPHASIC = 'tri';
-    const PHASES = ['mono', 'bi', 'tri'];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
