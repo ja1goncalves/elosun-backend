@@ -54,4 +54,12 @@ class ElectricAccount extends Model implements Transformable
         return $this->belongsTo(EnergyDistributor::class, 'energy_distributor_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function consumptionType()
+    {
+        return $this->belongsTo(ProductionTypes::class, 'production_type_id', 'id');
+    }
+
 }

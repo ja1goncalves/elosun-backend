@@ -14,7 +14,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/dono-do-pedido/{id}', 'OrdersController@getOrderly');
     Route::get('distributors-initials', 'EnergyDistributorsController@getInitials');
     Route::get('phases', 'ElectricAccountController@allPhases');
-    Route::get('tipos-de-endereco', 'ElectricAccountController@allTypeAddress');
+    Route::get('tipos-de-consumo', 'ElectricAccountController@consumptionTypes');
 
     Route::group(['prefix' => 'fornecedor'], function () {
         Route::post('cadastro-por-pedido', 'ProvidersController@updateProviderByOrder');

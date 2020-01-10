@@ -50,8 +50,8 @@ class ElectricAccountController extends Controller
         return response()->json($this->service->allPhases());
     }
 
-    public function allTypeAddress()
+    public function consumptionTypes()
     {
-        return response()->json($this->service->allTypeAddress());
+        return response()->json($this->service->allConsumptionTypes());
     }
 }

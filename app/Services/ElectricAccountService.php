@@ -4,8 +4,10 @@
 namespace App\Services;
 
 
+use App\Entities\ProductionTypes;
 use App\Enums\PhasesEnum;
 use App\Repositories\ElectricAccountRepository;
+use App\Repositories\ProductionTypesRepository;
 use App\Services\Traits\CrudMethods;
 
 class ElectricAccountService extends AppService
@@ -18,13 +20,19 @@ class ElectricAccountService extends AppService
     protected $repository;
 
     /**
+     * @var ProductionTypesRepository
+     */
+    protected $consumptionTypes;
+
+    /**
      * ClientsController constructor.
      *
      * @param ElectricAccountRepository $repository
      */
-    public function __construct(ElectricAccountRepository $repository)
+    public function __construct(ElectricAccountRepository $repository, ProductionTypesRepository $productionTypes)
     {
         $this->repository = $repository;
+        $this->consumptionTypes = $productionTypes;
     }
 
     public function allPhases()
@@ -33,8 +41,8 @@ class ElectricAccountService extends AppService
         return $this->responseOK;
     }
 
-    public function allTypeAddress()
+    public function allConsumptionTypes()
     {
-
+        return $this->consumptionTypes->all(['id', 'class']);
     }
 }
