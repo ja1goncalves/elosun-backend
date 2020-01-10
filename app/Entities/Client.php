@@ -27,6 +27,8 @@ class Client extends Model implements Transformable
         'cpf_cnpj',
         'cellphone',
         'number',
+        'phone',
+        'user_id'
     ];
 
     /**
