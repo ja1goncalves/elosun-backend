@@ -49,4 +49,9 @@ class ProvidersController extends Controller
         $response = $this->service->bestsByOrders($request->query->get('limit', 15));
         return response()->json($response, $response['error'] ? 500 : 200);
     }
+
+    public function updateProviderByOrder(Request $request)
+    {
+        return response()->json($this->service->updateByOrder($request->all()));
+    }
 }

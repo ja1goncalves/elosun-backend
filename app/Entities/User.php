@@ -51,7 +51,7 @@ class User extends Authenticatable implements Transformable
      */
     public function provider()
     {
-        return $this->hasOne(Provider::class, 'user_id');
+        return $this->hasOne(Provider::class, 'user_id', 'id');
     }
 
     /**
@@ -59,6 +59,6 @@ class User extends Authenticatable implements Transformable
      */
     public function client()
     {
-        return $this->hasOne(Client::class, 'user_id');
+        return $this->hasOne(Client::class, 'user_id', 'id');
     }
 }

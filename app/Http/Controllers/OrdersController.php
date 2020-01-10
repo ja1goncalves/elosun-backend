@@ -72,9 +72,4 @@ class OrdersController extends Controller
     {
         return response()->json($this->service->getOrderly($id));
     }
-
-    public function updateOrderly(Request $request)
-    {
-        return response()->json($this->service->updateOrderly($request->all()));
-    }
 }

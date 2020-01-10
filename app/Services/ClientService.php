@@ -54,4 +54,23 @@ class ClientService extends AppService
             'password' => bcrypt($data['password'])
         ]);
     }
+
+    public function updateByOrder(array $data)
+    {
+        $client = $this->repository->update($data['client'], $data['client']['id']);
+        $user = $this->addUseClient($client->id, $data['client']);
+        $address = $client->addresses()->update($data['client']['address'], $data['client']['address']['id']);
+
+        $account = $client->electricAccounts()->create($data['client']['account']);
+        $address_account = $account->address()->updateOrCreate($data['client']['account']['address'], $data['client']['account']['address']);
+
+        $this->responseOK['data'] = [
+            'user' => $user,
+            'client' => $client,
+            'address' => $address,
+            'account' => $account,
+        ];
+
+        return $this->responseOK;
+    }
 }
