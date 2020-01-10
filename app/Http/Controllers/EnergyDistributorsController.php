@@ -46,6 +46,11 @@ class EnergyDistributorsController extends Controller
         $this->validator  = $validator;
     }
 
+    public function getInitials()
+    {
+        return response()->json($this->service->getAllInitials());
+    }
+
     public function populars(Request $request)
     {
         $response = $this->service->populars();

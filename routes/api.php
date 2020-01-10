@@ -12,6 +12,7 @@ Route::post('order/purchase', 'OrdersController@purchase');
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/user-plus', 'UsersController@userPlus');
     Route::get('/dono-do-pedido/{id}', 'OrdersController@getOrderly');
+    Route::get('distributors-initials', 'EnergyDistributorsController@getInitials');
 
     Route::group(['prefix' => 'fornecedor'], function () {
         Route::post('cadastro-por-pedido', 'ProvidersController@updateProviderByOrder');

@@ -28,6 +28,14 @@ class EnergyDistributorService extends AppService
         $this->repository = $repository;
     }
 
+    public function getAllInitials()
+    {
+        $initials = $this->repository->all('initials')->toArray();
+        $this->responseOK['data'] = array_column($initials, 'initials');
+
+        return $this->responseOK;
+    }
+
     public function populars()
     {
         try{
