@@ -113,7 +113,7 @@ class OrderService extends AppService
             'subject' => 'Confirmar cadastro de venda',
             'user' => $provider,
             'order' => $this->responseOK['data']['order'],
-            'url' => url("{$url_front}/cadastro-fornecedor/".$this->responseOK['data']['order']['id'])
+            'url' => url("{$url_front}/cadastro/".$this->responseOK['data']['order']['id'])
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
@@ -150,7 +150,7 @@ class OrderService extends AppService
             'subject' => 'Confirmar cadastro de compra',
             'user' => $client,
             'order' => $this->responseOK['data']['order'],
-            'url' => url("{$url_front}/cadastro-fornecedor/".$this->responseOK['data']['order']['id'])
+            'url' => url("{$url_front}/cadastro/".$this->responseOK['data']['order']['id'])
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 

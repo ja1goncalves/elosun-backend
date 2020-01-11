@@ -38,8 +38,8 @@ class UserService extends AppService
     public function getUserProviderOrClient()
     {
         $this->responseOK['data'] = $this->repository
-            ->with('client')
-            ->with('provider')
+            ->with(['client.address', 'client.electricAccounts', 'client.orders'])
+            ->with(['provider.addresses', 'provider.electricStations', 'provider.orders'])
             ->findWhere(['email' => Auth::user()['email']])
             ->first();
 

@@ -22,7 +22,7 @@ class ElectricAccount extends Model implements Transformable
      */
     protected $fillable = [
         'number',
-        'type_address',
+        'consumption_type_id',
         'low_income',
         'phase',
         'installation',
