@@ -7,11 +7,11 @@ use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
 /**
- * Class Banks.
+ * Class Segments.
  *
  * @package namespace App\Entities;
  */
-class Banks extends Model implements Transformable
+class Segments extends Model implements Transformable
 {
     use TransformableTrait;
 
@@ -22,14 +22,14 @@ class Banks extends Model implements Transformable
      */
     protected $fillable = [
         'title',
-        'code'
+        'bank_id'
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function segments()
+    public function bank()
     {
-        return $this->hasMany(Segments::class, 'bank_id', 'id');
+        return $this->belongsTo(Banks::class, 'bank_id', 'id');
     }
 }
