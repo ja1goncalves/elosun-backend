@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Entities\Provider;
 use App\Repositories\AddressRepository;
+use App\Repositories\BankAccountsRepository;
 use App\Repositories\ElectricStationRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
@@ -40,6 +41,12 @@ class ProviderService extends AppService
      * @var OrderRepository
      */
     protected $orderRepository;
+
+    /**
+     * @var BankAccountsRepository
+     */
+    protected $bankAccounts;
+
     /**
      * ClientsController constructor.
      *
@@ -48,16 +55,18 @@ class ProviderService extends AppService
      * @param AddressRepository $addressRepository
      * @param ElectricStationRepository $electricStationRepository
      * @param OrderRepository $orderRepository
+     * @param BankAccountsRepository $bankAccounts
      */
     public function __construct(ProviderRepository $repository, UserRepository $userRepository,
                                 AddressRepository $addressRepository, ElectricStationRepository $electricStationRepository,
-                                OrderRepository $orderRepository)
+                                OrderRepository $orderRepository, BankAccountsRepository $bankAccounts)
     {
         $this->repository = $repository;
         $this->userRepository = $userRepository;
         $this->address = $addressRepository;
         $this->electricStation = $electricStationRepository;
         $this->orderRepository = $orderRepository;
+        $this->bankAccounts = $bankAccounts;
     }
 
     public function bestsByOrders($limit = 15)
@@ -98,6 +107,9 @@ class ProviderService extends AppService
         $user = $this->addUserProvider($provider, $data['provider']['password']);
         $data['provider']['user_id'] = $user->id;
         $provider = $this->repository->update($data['provider'], $provider->id);
+
+        $data['provider']['bank']['provider_id'] = $provider->id;
+        $provider['bank'] = $this->bankAccounts->create($data['provider']['bank']);
 
         $provider['address'] = $this->address->update($data['provider']['address'], $data['provider']['address']['id']);
 
