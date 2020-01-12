@@ -54,13 +54,13 @@ class ClientUpdateRequest extends FormRequest
             "client.electric_account.address.street" => "required|string|max:100",
             "client.electric_account.address.number" => "numeric",
             "client.bank" => "nullable",
-            "client.bank.agency" => "required|string|min:4",
-            "client.bank.account" => "required|string|min:4",
+            "client.bank.agency" => "string|min:4",
+            "client.bank.account" => "string|min:4",
             "client.bank.account_dv" => "nullable|string|max:2",
             "client.bank.agency_dv" => "nullable|string|max:2",
             "client.bank.type" => "string|min:2",
-            "client.bank.bank_id" => "required|numeric|exists:banks,id",
-            "client.bank.segment_id" => "required|numeric|exists:segments,id",
+            "client.bank.bank_id" => "numeric|exists:banks,id",
+            "client.bank.segment_id" => "numeric|exists:segments,id",
         ];
     }
 
