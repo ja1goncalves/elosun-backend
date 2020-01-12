@@ -47,4 +47,9 @@ class BanksController extends Controller
     public function listAll() {
         return $this->service->getAllBanks();
     }
+
+    public function listSegments($bank_d)
+    {
+        return $this->service->findByBank($bank_d);
+    }
 }
