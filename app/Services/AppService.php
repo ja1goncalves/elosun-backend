@@ -19,12 +19,12 @@ namespace App\Services;
 class AppService
 {
     /**
-     * @param array $data
+     * @param array|object $data
      * @param string $message
      * @param int $status
      * @return array
      */
-    protected function returnSuccess(array $data = [], string $message = 'Everything OK!', int $status = 200)
+    protected function returnSuccess($data = [], string $message = 'Everything OK!', int $status = 200)
     {
         return [
             'data' => $data,
@@ -35,12 +35,12 @@ class AppService
     }
 
     /**
-     * @param array $data
+     * @param array|object $data
      * @param string $message
      * @param int $status
      * @return array
      */
-    protected function returnError(array $data = [], string $message = 'Any error occurrence!', int $status = 500)
+    protected function returnError($data = [], string $message = 'Any error occurrence!', int $status = 500)
     {
         return [
             'data' => $data,
