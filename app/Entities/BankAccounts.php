@@ -49,10 +49,10 @@ class BankAccounts extends Model implements Transformable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function provider()
+    public function bankAccountable()
     {
-        return $this->belongsTo(Provider::class, 'provider_id', 'id');
+        return $this->morphTo();
     }
 }

@@ -63,4 +63,11 @@ class Client extends Model implements Transformable
         return $this->morphMany(Order::class, 'orderly');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function bankAccounts()
+    {
+        return $this->morphMany(BankAccounts::class, 'bankAccountable');
+    }
 }

@@ -62,10 +62,10 @@ class Provider extends Model implements Transformable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function bankAccounts()
     {
-        return $this->hasMany(BankAccounts::class, 'bank_id', 'id');
+        return $this->morphMany(BankAccounts::class, 'bankAccountable');
     }
 }

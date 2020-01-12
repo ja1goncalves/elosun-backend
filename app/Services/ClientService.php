@@ -23,11 +23,6 @@ class ClientService extends AppService
     protected $repository;
 
     /**
-     * @var AddressRepository
-     */
-    protected $addresses;
-
-    /**
      * @var ElectricAccountRepository
      */
     protected $accounts;
@@ -46,17 +41,14 @@ class ClientService extends AppService
      * ClientsController constructor.
      *
      * @param ClientRepository $repository
-     * @param AddressRepository $addressRepository
      * @param ElectricAccountRepository $electricAccountRepository
      * @param EnergyDistributorRepository $energyDistributor
      * @param BankAccountsRepository $bankAccounts
      */
-    public function __construct(ClientRepository $repository, AddressRepository $addressRepository,
-                                ElectricAccountRepository $electricAccountRepository,
+    public function __construct(ClientRepository $repository,  ElectricAccountRepository $electricAccountRepository,
                                 EnergyDistributorRepository $energyDistributor, BankAccountsRepository $bankAccounts)
     {
         $this->repository = $repository;
-        $this->addresses = $addressRepository;
         $this->accounts = $electricAccountRepository;
         $this->distributors = $energyDistributor;
         $this->bankAccounts = $bankAccounts;
@@ -89,28 +81,22 @@ class ClientService extends AppService
     {
         $client = $this->repository->with('user')->find($data['client']['id']);
 
-//        if ($client['user']) {
-//            return $this->returnError([], 'O fornecedor já foi devidamente cadastrado!');
-//        }
-
         $user = $this->addUseClient($client, $data['client']['password']);
         $data['client']['user_id'] = $user->id;
         $client = $this->repository->update($data['client'], $client->id);
 
-//        $data['client']['bank']['bank_accountable_id'] = $client->id;
-//        $data['client']['bank']['bank_accountable_type'] = $client->id;
         $client['bank'] = $client->bankAccounts()->create($data['client']['bank']);
 
-        $client['address'] = $this->addresses->update($data['client']['address'], $data['client']['address']['id']);
+        $client['address'] = $client->addresses()->update($data['client']['address'], $data['client']['address']['id']);
 
         $distributor = $this->distributors
-            ->findWhere(['initials' => $data['client']['account']['distributor_initials']], 'id')
+            ->findWhere(['initials' => $data['client']['electric_account']['distributor_initials']], 'id')
             ->first();
-        $data['client']['account']['energy_distributor_id'] = $distributor->id;
-        $account = $client->electricAccounts()->create($data['client']['account']);
+        $data['client']['electric_account']['energy_distributor_id'] = $distributor->id;
+        $account = $client->electricAccounts()->create($data['client']['electric_account']);
 
-        if ($data['client']['account']['address']) {
-            $account['address'] = $account->address()->create($data['client']['account']['address']);
+        if ($data['client']['electric_account']['address']) {
+            $account['address'] = $account->address()->create($data['client']['electric_account']['address']);
         }
 
         return $this->returnSuccess([
