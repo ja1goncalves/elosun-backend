@@ -22,12 +22,9 @@ class BanksTransformer extends TransformerAbstract
     public function transform(Banks $model)
     {
         return [
-            'id'         => (int) $model->id,
-
-            /* place your other model properties here */
-
-            'created_at' => $model->created_at,
-            'updated_at' => $model->updated_at
+            'id'    => (int) $model->id,
+            'title' => $model->title,
+            'code'  => $model->code
         ];
     }
 }

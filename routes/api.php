@@ -19,6 +19,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('distributors-initials', 'EnergyDistributorsController@getInitials');
     Route::get('phases', 'ElectricAccountController@allPhases');
     Route::get('tipos-de-consumo', 'ElectricAccountController@consumptionTypes');
+    Route::get('banks', 'BanksController@listAll');
 
     Route::group(['prefix' => 'fornecedor'], function () {
         Route::post('cadastro-por-pedido', 'ProvidersController@updateProviderByOrder');

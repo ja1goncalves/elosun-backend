@@ -44,4 +44,7 @@ class BanksController extends Controller
         $this->service  = $service;
     }
 
+    public function listAll() {
+        return $this->service->getAllBanks();
+    }
 }
