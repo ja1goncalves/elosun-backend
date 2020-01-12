@@ -34,11 +34,12 @@ class BankService extends AppService
         $this->segments = $segments;
     }
 
+    /**
+     * @return array
+     */
     public function getAllBanks()
     {
-        return $this->repository
-            ->setPresenter(BanksPresenter::class)
-            ->all();
+        return $this->returnSuccess($this->repository->setPresenter(BanksPresenter::class)->all());
     }
 
     /**
@@ -47,6 +48,6 @@ class BankService extends AppService
      */
     public function findByBank(int $bank_id)
     {
-        return $this->segments->findWhere(['bank_id' => $bank_id]);
+        return $this->returnSuccess($this->segments->findWhere(['bank_id' => $bank_id]));
     }
 }

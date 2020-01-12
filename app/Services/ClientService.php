@@ -65,15 +65,11 @@ class ClientService extends AppService
     public function bestsByOrders($limit = 15)
     {
         try{
-            $this->responseOK['data']['clients'] = $this->repository->bestByOrders($limit);
+            return $this->returnSuccess($this->repository->bestByOrders($limit));
         }catch (\Exception $e){
-            $this->responseOK['message'] = $e->getMessage();
-            $this->responseOK['error'] = true;
+            return $this->returnError([], $e->getMessage());
         }
-
-        return $this->responseOK;
     }
-
 
     /**
      * @param Client $client
@@ -94,8 +90,7 @@ class ClientService extends AppService
         $client = $this->repository->with('user')->find($data['client']['id']);
 
         if ($client['user']) {
-            $this->responseERROR['message'] = 'O fornecedor já foi devidamente cadastrado!';
-            return $this->responseERROR;
+            return $this->returnError([], 'O fornecedor já foi devidamente cadastrado!');
         }
 
         $user = $this->addUseClient($client, $data['client']['password']);
@@ -117,12 +112,10 @@ class ClientService extends AppService
             $account['address'] = $account->address()->create($data['client']['account']['address']);
         }
 
-        $this->responseOK['data'] = [
+        return $this->returnSuccess([
             'user' => $user,
             'client' => $client,
             'account' => $account,
-        ];
-
-        return $this->responseOK;
+        ]);
     }
 }

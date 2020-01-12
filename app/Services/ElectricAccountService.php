@@ -37,8 +37,7 @@ class ElectricAccountService extends AppService
 
     public function allPhases()
     {
-        $this->responseOK['data'] = PhasesEnum::allPhases();
-        return $this->responseOK;
+        return $this->returnSuccess(PhasesEnum::allPhases());
     }
 
     public function allConsumptionTypes()

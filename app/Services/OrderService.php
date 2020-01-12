@@ -103,21 +103,21 @@ class OrderService extends AppService
             'order_status_id' => 2
         ];
 
-        $this->responseOK['data']['provider'] = $provider;
-        $this->responseOK['data']['address'] = $address;
-        $this->responseOK['data']['order'] = $provider->orders()->create($order);
+        $return['data']['provider'] = $provider;
+        $return['data']['address'] = $address;
+        $return['data']['order'] = $provider->orders()->create($order);
 
         $url_front = Config::get('services.provider_front.url');
         $data_send_mail = [
             'to' => $provider['email'],
             'subject' => 'Confirmar cadastro de venda',
             'user' => $provider,
-            'order' => $this->responseOK['data']['order'],
-            'url' => url("{$url_front}/cadastro/".$this->responseOK['data']['order']['id'])
+            'order' => $return['data']['order'],
+            'url' => url("{$url_front}/cadastro/".$return['data']['order']['id'])
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
-        return $this->responseOK;
+        return $this->returnSuccess($return);
     }
 
     public function purchase(array $data)
@@ -140,21 +140,21 @@ class OrderService extends AppService
             'order_status_id' => 2
         ];
 
-        $this->responseOK['data']['client'] = $client;
-        $this->responseOK['data']['address'] = $address;
-        $this->responseOK['data']['order'] = $client->orders()->create($order);
+        $return['data']['client'] = $client;
+        $return['data']['address'] = $address;
+        $return['data']['order'] = $client->orders()->create($order);
 
         $url_front = Config::get('services.provider_front.url');
         $data_send_mail = [
             'to' => $client['email'],
             'subject' => 'Confirmar cadastro de compra',
             'user' => $client,
-            'order' => $this->responseOK['data']['order'],
-            'url' => url("{$url_front}/cadastro/".$this->responseOK['data']['order']['id'])
+            'order' => $return['data']['order'],
+            'url' => url("{$url_front}/cadastro/".$return['data']['order']['id'])
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
-        return $this->responseOK;
+        return $this->returnSuccess($return);
     }
 
     public function getByInterval($interval)
@@ -167,14 +167,11 @@ class OrderService extends AppService
             ->orderBy('end_watts')
             ->findWhereBetween('created_at', $interval_date);
 
-        $this->responseOK['data'] = [
+        return $this->returnSuccess([
             'purchase' => $orders->where('type_order', Order::PURCHASE)->take(10),
             'sale' => $orders->where('type_order', Order::SALE)->take(10),
             'total' => $orders->count()
-        ];
-        $this->responseOK['error'] = false;
-
-        return $this->responseOK;
+        ]);
     }
 
     public function getOrderly(int $id)

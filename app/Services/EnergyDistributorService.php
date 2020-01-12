@@ -31,9 +31,7 @@ class EnergyDistributorService extends AppService
     public function getAllInitials()
     {
         $initials = $this->repository->all('initials')->toArray();
-        $this->responseOK['data'] = array_column($initials, 'initials');
-
-        return $this->responseOK;
+        return $this->returnSuccess(array_column($initials, 'initials'));
     }
 
     public function populars()
@@ -45,14 +43,10 @@ class EnergyDistributorService extends AppService
                 ->all()
                 ->groupBy('name');
 
-            $this->responseOK['data']['distributors'] = $distributors;
-            $this->responseOK['error'] = false;
+            return $this->returnSuccess($distributors);
         }catch (\Exception $e){
-            $this->responseOK['message'] = $e->getMessage();
-            $this->responseOK['error'] = true;
+            return $this->returnError([], $e->getMessage());
         }
-
-        return $this->responseOK;
     }
 
     public function updateCrw($data)
@@ -76,15 +70,11 @@ class EnergyDistributorService extends AppService
                     ], $update);
             }
 
-            $this->responseOK['message'] = 'Distribuidoras de energia atualizadas!';
+            return $this->returnSuccess([], 'Distribuidoras de energia atualizadas!');
         }catch (\Exception $e){
-            $this->responseOK['error'] = true;
-            $this->responseOK['message'] = $e->getMessage();
-            $this->responseOK['status'] = 500;
             \Log::error($e);
+            return $this->returnError([], $e->getMessage());
         }
-
-        return $this->responseOK;
     }
 
     private function getNameDistributor($name)

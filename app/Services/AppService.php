@@ -18,17 +18,35 @@ namespace App\Services;
  */
 class AppService
 {
-    protected $responseOK = [
-        'data' => [],
-        'error' => false,
-        'message' => 'Everything OK!',
-        'status' => 200
-    ];
+    /**
+     * @param array $data
+     * @param string $message
+     * @param int $status
+     * @return array
+     */
+    protected function returnSuccess(array $data = [], string $message = 'Everything OK!', int $status = 200)
+    {
+        return [
+            'data' => $data,
+            'error' => false,
+            'message' => $message,
+            'status' => $status
+        ];
+    }
 
-    protected $responseERROR = [
-        'data' => [],
-        'error' => true,
-        'message' => 'Any error occurrence!',
-        'status' => 500
-    ];
+    /**
+     * @param array $data
+     * @param string $message
+     * @param int $status
+     * @return array
+     */
+    protected function returnError(array $data = [], string $message = 'Any error occurrence!', int $status = 500)
+    {
+        return [
+            'data' => $data,
+            'error' => true,
+            'message' => $message,
+            'status' => $status
+        ];
+    }
 }

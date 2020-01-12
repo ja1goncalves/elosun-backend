@@ -72,13 +72,10 @@ class ProviderService extends AppService
     public function bestsByOrders($limit = 15)
     {
         try{
-            $this->responseOK['data']['clients'] = $this->repository->bestByOrders($limit);
-        }catch (\Exception $e){
-            $this->responseOK['message'] = $e->getMessage();
-            $this->responseOK['error'] = true;
+            return $this->returnSuccess($this->repository->bestByOrders($limit));
+        }catch (\Exception $e) {
+            return $this->returnError([], $e->getMessage());
         }
-
-        return $this->responseOK;
     }
 
     /**
@@ -100,8 +97,7 @@ class ProviderService extends AppService
         $provider = $this->repository->with('user')->find($data['provider']['id']);
 
         if ($provider['user']) {
-            $this->responseERROR['message'] = 'O fornecedor já foi devidamente cadastrado!';
-            return $this->responseERROR;
+            return $this->returnError([], 'O fornecedor já foi devidamente cadastrado!');
         }
 
         $user = $this->addUserProvider($provider, $data['provider']['password']);
@@ -126,12 +122,10 @@ class ProviderService extends AppService
         $station = $this->electricStation->update($station->toArray(), $station->id);
         $station['address'] = $station->address()->get();
 
-        $this->responseOK['data'] = [
+        return $this->returnSuccess([
             'user' => $user,
             'provider' => $provider,
             'station' => $station,
-        ];
-
-        return $this->responseOK;
+        ]);
     }
 }

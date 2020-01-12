@@ -34,7 +34,7 @@ class ElectricStationService extends AppService
             ->resetCriteria()
             ->pushCriteria(app('App\Criteria\FilterElectricStationsByDistributorsCriteria'));
 
-        return $this->processAll($limit);
+        return $this->returnSuccess($this->processAll($limit));
     }
 
 }
