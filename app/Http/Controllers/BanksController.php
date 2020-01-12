@@ -23,9 +23,9 @@ class BanksController extends Controller
 {
     use CrudMethods;
     /**
-     * @var BanksRepository
+     * @var BanksValidator
      */
-    protected $repository;
+    protected $validator;
 
     /**
      * @var BankService
@@ -35,12 +35,12 @@ class BanksController extends Controller
     /**
      * BanksController constructor.
      *
-     * @param BanksRepository $repository
+     * @param BanksValidator $validator
      * @param BankService $service
      */
-    public function __construct(BanksRepository $repository, BankService $service)
+    public function __construct(BanksValidator $validator, BankService $service)
     {
-        $this->repository = $repository;
+        $this->validator = $validator;
         $this->service  = $service;
     }
 

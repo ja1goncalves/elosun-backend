@@ -32,4 +32,12 @@ class Banks extends Model implements Transformable
     {
         return $this->hasMany(Segments::class, 'bank_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function accounts()
+    {
+        return $this->hasMany(BankAccounts::class, 'bank_id', 'id');
+    }
 }

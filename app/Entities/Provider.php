@@ -60,4 +60,12 @@ class Provider extends Model implements Transformable
     {
         return $this->morphMany(Order::class, 'orderly');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function bankAccounts()
+    {
+        return $this->hasMany(BankAccounts::class, 'bank_id', 'id');
+    }
 }
