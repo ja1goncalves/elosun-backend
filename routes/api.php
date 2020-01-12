@@ -11,7 +11,6 @@ Route::post('order/purchase', 'OrdersController@purchase');
 
 Route::group(['middleware' => ['auth:api']], function () {
     //Criar middleware apenas para passar o usuário do front
-    //Especificar as regras de requisição e validação no laravel
     Route::get('/user', 'UsersController@getUserProviderOrClient');
     Route::get('/dono-do-pedido/{id}', 'OrdersController@getOrderly');
     Route::get('distributors-initials', 'EnergyDistributorsController@getInitials');

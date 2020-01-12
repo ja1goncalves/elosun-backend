@@ -38,8 +38,8 @@ class UserService extends AppService
     public function getUserProviderOrClient()
     {
         $data = $this->repository
-            ->with(['client.address', 'client.electricAccounts', 'client.orders'])
-            ->with(['provider.addresses', 'provider.electricStations', 'provider.orders'])
+            ->with(['client.address', 'client.electricAccounts', 'client.orders', 'client.bankAccounts'])
+            ->with(['provider.addresses', 'provider.electricStations', 'provider.orders', 'provider.bankAccounts'])
             ->findWhere(['email' => Auth::user()['email']])
             ->first();
 
@@ -47,6 +47,6 @@ class UserService extends AppService
             return $this->returnError([], 'Não foi possível encontrar esse usuário', 404);
         }
 
-        return $this->returnSuccess($data);
+        return $this->returnSuccess($data->toArray());
     }
 }
