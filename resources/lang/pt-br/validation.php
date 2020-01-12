@@ -187,6 +187,8 @@ return [
         'bank_id'               => 'Banco',
         'segment_id'            => 'referência do segmento',
         'provider_id'           => 'Fornecedor',
+        'provider'              => 'Fornecedor',
+        'client'                => 'Cliente',
         'agency'                => 'Agência',
         'account'               => 'Conta',
         'account_dv'            => 'Dígito da conta',
@@ -201,6 +203,8 @@ return [
         'cpf_cpnj'              => 'CPF ou CNPJ',
         'user_id'               => 'referência do usuário',
         'code_gd'               => 'Código GD',
+        'electric_account'      => 'Conta elétrica',
+        'electric_account.number' => 'Conta contrato'
     ],
 
 ];
