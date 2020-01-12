@@ -85,14 +85,15 @@ class ClientService extends AppService
         $data['client']['user_id'] = $user->id;
         $client = $this->repository->update($data['client'], $client->id);
 
-        $client['bank'] = $client->bankAccounts()->create($data['client']['bank']);
+        if ($data['client']['bank'])
+            $client['bank'] = $client->bankAccounts()->create($data['client']['bank']);
 
         $client['address'] = $client->addresses()->update($data['client']['address'], $data['client']['address']['id']);
 
         $distributor = $this->distributors
             ->findWhere(['initials' => $data['client']['electric_account']['distributor_initials']], 'id')
             ->first();
-        $data['client']['electric_account']['energy_distributor_id'] = $distributor->id;
+        $data['client']['electric_account']['energy_distributor_id'] = $distributor->id ?? null;
         $account = $client->electricAccounts()->create($data['client']['electric_account']);
 
         if ($data['client']['electric_account']['address']) {

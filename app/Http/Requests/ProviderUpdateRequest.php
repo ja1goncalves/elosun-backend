@@ -43,7 +43,7 @@ class ProviderUpdateRequest extends FormRequest
             "provider.address.addressable_id" => "required_without:provider.id|numeric",
             "provider.address.addressable_type" => "nullable|string",
             "provider.station" => "required",
-            "provider.station.code_gd" => "required|string|min:14",
+            "provider.station.code_gd" => "required|string|min:14|exists:electric_stations,code_gd",
             "provider.station.address" => "nullable",
             "provider.station.address.state" => "string|min:2|max:2",
             "provider.station.address.zip_code" => "string|min:8",

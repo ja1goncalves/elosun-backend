@@ -102,7 +102,10 @@ class ProviderService extends AppService
             ->findWhere(['code_gd' => strtoupper($data['provider']['station']['code_gd'])])
             ->first();
 
-        if (!is_null($data['provider']['station']['address'])) {
+        if (is_null($station))
+            return $this->returnError([], 'Estação não encontrada com esse código GD na ANEEL', 404);
+
+        if (!is_null($data['provider']['statexitsion']['address'])) {
             $data['provider']['station']['address']['electric'] = true;
             $station->address()->update($data['provider']['station']['address'], $station->address->id);
         }
