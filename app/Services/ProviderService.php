@@ -90,6 +90,11 @@ class ProviderService extends AppService
     {
         $provider = $this->repository->with('user')->find($data['provider']['id']);
 
+        if ($provider['user']) {
+            $this->responseERROR['message'] = 'O fornecedor já foi devidamente cadastrado!';
+            return $this->responseERROR;
+        }
+
         $user = $this->addUserProvider($provider, $data['provider']['password']);
         $data['provider']['user_id'] = $user->id;
         $provider = $this->repository->update($data['provider'], $provider->id);

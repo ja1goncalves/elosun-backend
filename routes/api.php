@@ -10,6 +10,10 @@ Route::post('order/sale', 'OrdersController@sale');
 Route::post('order/purchase', 'OrdersController@purchase');
 
 Route::group(['middleware' => ['auth:api']], function () {
+    //Criar middleware apenas para passar o usuário do front
+    //Criar tabela de banco de dados e contas bancárias
+    //Especificar as regras de requisição e validação no laravel
+    //Colocar função de resposta com erro ou ok no appservice
     Route::get('/user', 'UsersController@getUserProviderOrClient');
     Route::get('/dono-do-pedido/{id}', 'OrdersController@getOrderly');
     Route::get('distributors-initials', 'EnergyDistributorsController@getInitials');
