@@ -50,7 +50,7 @@ class ClientsController extends Controller
         return response()->json($response, $response['error'] ? 500 : 200);
     }
 
-    public function updateClientByOrder(Request $request)
+    public function updateClientByOrder(ClientUpdateRequest $request)
     {
         return response()->json($this->service->updateByOrder($request->all()));
     }

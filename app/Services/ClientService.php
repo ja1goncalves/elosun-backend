@@ -89,16 +89,17 @@ class ClientService extends AppService
     {
         $client = $this->repository->with('user')->find($data['client']['id']);
 
-        if ($client['user']) {
-            return $this->returnError([], 'O fornecedor já foi devidamente cadastrado!');
-        }
+//        if ($client['user']) {
+//            return $this->returnError([], 'O fornecedor já foi devidamente cadastrado!');
+//        }
 
         $user = $this->addUseClient($client, $data['client']['password']);
         $data['client']['user_id'] = $user->id;
         $client = $this->repository->update($data['client'], $client->id);
 
-        $data['provider']['bank']['provider_id'] = $client->id;
-        $client['bank'] = $this->bankAccounts->create($data['provider']['bank']);
+//        $data['client']['bank']['bank_accountable_id'] = $client->id;
+//        $data['client']['bank']['bank_accountable_type'] = $client->id;
+        $client['bank'] = $client->bankAccounts()->create($data['client']['bank']);
 
         $client['address'] = $this->addresses->update($data['client']['address'], $data['client']['address']['id']);
 

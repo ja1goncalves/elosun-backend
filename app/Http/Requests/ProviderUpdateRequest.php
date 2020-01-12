@@ -13,7 +13,7 @@ class ProviderUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,11 +27,11 @@ class ProviderUpdateRequest extends FormRequest
             "provider" => "required",
             "provider.id" => "required|numeric|exists:providers,id",
             "provider.name" => "string|min:7",
-            "provider.email" => "email|unique|",
+            "provider.email" => "email",
             "provider.password" => "required|string|min:8",
             "provider.cpf_cpnj" => "required|string|min:11|unique:providers",
-            "provider.phone" => "nullable|string|min:15",
-            "provider.cellphone" => "required|string|min:15",
+            "provider.phone" => "nullable|string|min:11|max:15",
+            "provider.cellphone" => "required|string|min:13|max:15",
             "provider.user_id" => "nullable|numeric",
             "provider.address" => "required",
             "provider.address.id" => "required|numeric|exists:addresses,id",
@@ -41,7 +41,7 @@ class ProviderUpdateRequest extends FormRequest
             "provider.address.street" => "required|string|max:100",
             "provider.address.number" => "numeric",
             "provider.address.addressable_id" => "required_without:provider.id|numeric",
-            "provider.address.addressable_type" => "nullable|numeric",
+            "provider.address.addressable_type" => "nullable|string",
             "provider.station" => "required",
             "provider.station.code_gd" => "required|string|min:14",
             "provider.station.address" => "nullable",

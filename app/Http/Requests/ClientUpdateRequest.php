@@ -13,7 +13,7 @@ class ClientUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,11 +27,11 @@ class ClientUpdateRequest extends FormRequest
             "client" => "required",
             "client.id" => "required|numeric|exists:clients,id",
             "client.name" => "string|min:7",
-            "client.email" => "email|unique",
+            "client.email" => "email",
             "client.password" => "required|string|min:8",
-            "client.cpf_cpnj" => "required|string|min:11|unique:clients",
-            "client.phone" => "nullable|string|min:15",
-            "client.cellphone" => "required|string|min:15",
+            "client.cpf_cnpj" => "required|string|min:11|unique:clients,cpf_cnpj",
+            "client.phone" => "string|min:10|max:15",
+            "client.cellphone" => "string|min:12|max:15",
             "client.user_id" => "nullable|numeric",
             "client.address" => "required",
             "client.address.id" => "required|numeric|exists:addresses,id",
@@ -41,7 +41,7 @@ class ClientUpdateRequest extends FormRequest
             "client.address.street" => "required|string|max:100",
             "client.address.number" => "numeric",
             "client.address.addressable_id" => "required_without:client.id|numeric",
-            "client.address.addressable_type" => "nullable|numeric",
+            "client.address.addressable_type" => "nullable|string",
             "client.electric_account" => "required",
             "client.electric_account.number" => "required|string",
             "client.electric_account.consumption_type_id" => "required|numeric|exists:production_types,id",

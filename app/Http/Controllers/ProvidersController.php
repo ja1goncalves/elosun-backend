@@ -50,7 +50,7 @@ class ProvidersController extends Controller
         return response()->json($response, $response['error'] ? 500 : 200);
     }
 
-    public function updateProviderByOrder(Request $request)
+    public function updateProviderByOrder(ProviderUpdateRequest $request)
     {
         return response()->json($this->service->updateByOrder($request->all()));
     }

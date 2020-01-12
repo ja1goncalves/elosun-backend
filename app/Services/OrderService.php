@@ -103,17 +103,17 @@ class OrderService extends AppService
             'order_status_id' => 2
         ];
 
-        $return['data']['provider'] = $provider;
-        $return['data']['address'] = $address;
-        $return['data']['order'] = $provider->orders()->create($order);
+        $return['provider'] = $provider;
+        $return['address'] = $address;
+        $return['order'] = $provider->orders()->create($order);
 
         $url_front = Config::get('services.provider_front.url');
         $data_send_mail = [
             'to' => $provider['email'],
             'subject' => 'Confirmar cadastro de venda',
             'user' => $provider,
-            'order' => $return['data']['order'],
-            'url' => url("{$url_front}/cadastro/".$return['data']['order']['id'])
+            'order' => $return['order'],
+            'url' => url("{$url_front}/cadastro/".$return['order']['id'])
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
@@ -140,17 +140,17 @@ class OrderService extends AppService
             'order_status_id' => 2
         ];
 
-        $return['data']['client'] = $client;
-        $return['data']['address'] = $address;
-        $return['data']['order'] = $client->orders()->create($order);
+        $return['client'] = $client;
+        $return['address'] = $address;
+        $return['order'] = $client->orders()->create($order);
 
         $url_front = Config::get('services.provider_front.url');
         $data_send_mail = [
             'to' => $client['email'],
             'subject' => 'Confirmar cadastro de compra',
             'user' => $client,
-            'order' => $return['data']['order'],
-            'url' => url("{$url_front}/cadastro/".$return['data']['order']['id'])
+            'order' => $return['order'],
+            'url' => url("{$url_front}/cadastro/".$return['order']['id'])
         ];
         SendMailBySendGrid::dispatch($data_send_mail, 'confirm_order')->delay(0.5);
 
