@@ -12,20 +12,21 @@ Route::post('order/purchase', 'OrdersController@purchase');
 Route::group(['middleware' => ['auth:api']], function () {
     //Criar middleware apenas para passar o usuário do front
     //Especificar as regras de requisição e validação no laravel
-    //Colocar função de resposta com erro ou ok no appservice
     Route::get('/user', 'UsersController@getUserProviderOrClient');
     Route::get('/dono-do-pedido/{id}', 'OrdersController@getOrderly');
     Route::get('distributors-initials', 'EnergyDistributorsController@getInitials');
     Route::get('phases', 'ElectricAccountController@allPhases');
     Route::get('tipos-de-consumo', 'ElectricAccountController@consumptionTypes');
 
-    //Banks
-    Route::get('banks', 'BanksController@listAll');
-    Route::get('bank/segments/{bank_id}',   'BanksController@listSegments');
+    Route::group(['prefix' => 'banks'], function () {
+        Route::get('/', 'BanksController@listAll');
+        Route::get('segments/{bank_id}', 'BanksController@listSegments');
+    });
 
     Route::group(['prefix' => 'fornecedor'], function () {
         Route::post('cadastro-por-pedido', 'ProvidersController@updateProviderByOrder');
     });
+
     Route::group(['prefix' => 'cliente'], function () {
         Route::post('cadastro-por-pedido', 'ClientsController@updateClientByOrder');
     });
