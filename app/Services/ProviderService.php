@@ -28,11 +28,6 @@ class ProviderService extends AppService
     protected $userRepository;
 
     /**
-     * @var AddressRepository
-     */
-    protected $address;
-
-    /**
      * @var ElectricStationRepository
      */
     protected $electricStation;
@@ -52,18 +47,16 @@ class ProviderService extends AppService
      *
      * @param ProviderRepository $repository
      * @param UserRepository $userRepository
-     * @param AddressRepository $addressRepository
      * @param ElectricStationRepository $electricStationRepository
      * @param OrderRepository $orderRepository
      * @param BankAccountsRepository $bankAccounts
      */
     public function __construct(ProviderRepository $repository, UserRepository $userRepository,
-                                AddressRepository $addressRepository, ElectricStationRepository $electricStationRepository,
+                                ElectricStationRepository $electricStationRepository,
                                 OrderRepository $orderRepository, BankAccountsRepository $bankAccounts)
     {
         $this->repository = $repository;
         $this->userRepository = $userRepository;
-        $this->address = $addressRepository;
         $this->electricStation = $electricStationRepository;
         $this->orderRepository = $orderRepository;
         $this->bankAccounts = $bankAccounts;
@@ -96,18 +89,13 @@ class ProviderService extends AppService
     {
         $provider = $this->repository->with('user')->find($data['provider']['id']);
 
-        if ($provider['user']) {
-            return $this->returnError([], 'O fornecedor já foi devidamente cadastrado!');
-        }
-
         $user = $this->addUserProvider($provider, $data['provider']['password']);
         $data['provider']['user_id'] = $user->id;
         $provider = $this->repository->update($data['provider'], $provider->id);
 
-        $data['provider']['bank']['provider_id'] = $provider->id;
-        $provider['bank'] = $this->bankAccounts->create($data['provider']['bank']);
+        $provider['bank'] = $provider->bankAccounts()->create($data['provider']['bank']);
 
-        $provider['address'] = $this->address->update($data['provider']['address'], $data['provider']['address']['id']);
+        $provider['address'] = $provider->addresses()->update($data['provider']['address'], $data['provider']['address']['id']);
 
         $station = $this->electricStation
             ->with('address')
@@ -115,7 +103,8 @@ class ProviderService extends AppService
             ->first();
 
         if (!is_null($data['provider']['station']['address'])) {
-            $this->address->update($data['provider']['station']['address'], $station->address->id);
+            $data['provider']['station']['address']['electric'] = true;
+            $station->address()->update($data['provider']['station']['address'], $station->address->id);
         }
 
         $station->provider_id = $provider->id;

@@ -96,6 +96,7 @@ class ClientService extends AppService
         $account = $client->electricAccounts()->create($data['client']['electric_account']);
 
         if ($data['client']['electric_account']['address']) {
+            $data['provider']['station']['address']['electric'] = true;
             $account['address'] = $account->address()->create($data['client']['electric_account']['address']);
         }
 
