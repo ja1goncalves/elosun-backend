@@ -57,7 +57,7 @@ class ProviderUpdateRequest extends FormRequest
             "provider.bank.agency_dv" => "nullable|string|max:2",
             "provider.bank.type" => "string|min:2",
             "provider.bank.bank_id" => "required|numeric|exists:banks,id",
-            "provider.bank.segment_id" => "required|numeric|exists:segments,id",
+            "provider.bank.segment_id" => "numeric|exists:segments,id",
         ];
     }
 
