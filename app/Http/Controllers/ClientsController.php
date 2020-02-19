@@ -60,21 +60,15 @@ class ClientsController extends Controller
         return response()->json($this->service->updateByOrder($request->all()));
     }
 
-    public function listLead(Request $request)
-    {
-        return response()->json($this->service->getListPurchase());
-    }
-
-    public function searchs(Request $request)
+    public function index(Request $request)
     {
         $form = $request->input("formInfo");
         return response()->json($this->service->getSearchs($form));
     }
 
-    public function leadSearchs(Request $request)
+    public function listLead(Request $request)
     {
         $form = $request->input("formInfo");
         return response()->json($this->service->getLeadSearchs($form));
     }
-
 }

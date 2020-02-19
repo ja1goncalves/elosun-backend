@@ -108,16 +108,6 @@ class ClientService extends AppService
         ]);
     }
 
-    public function getListPurchase()
-    {
-        $data = DB::table('clients')
-        ->join('orders', 'clients.id', '=', 'orders.orderly_id')
-        ->select('clients.name', 'clients.email', 'clients.cellphone', DB::raw('CONCAT(orders.start_watts, "kw", orders.end_watts) as consumo'), 'clients.created_at')
-        ->where('type_order', '=', 'purchase')->orderBy('clients.name')->paginate(15);    
-
-        return $this->returnSuccess($data);     
-    }
-
     public function getSearchs($info)
     {
         $data = [];
@@ -137,11 +127,8 @@ class ClientService extends AppService
             $dataOrder[] = ['order_status_id', '=', $info['orderStatusId']];
         }
 
-        return $this->repository->with([
-            'orders.status' //faz o join com as entidades
-        ], function($query) { 
-            $query->where($dataOrder)->get();
-        })->where($data)->paginate(15);
+        return $this->repository->with(['orders.status' ], function($query) { 
+            $query->where($dataOrder)->get();})->where($data)->paginate(15);
     }
 
     public function getLeadSearchs($info)
@@ -168,8 +155,8 @@ class ClientService extends AppService
             
         }
         
-        return $this->repository->with('orders', function($query) {
-            $query->where($dataOrder)->get();
+        return $this->repository->with(['orders.status'],function($query) { 
+            $query->where($dataOrder)->first();
         })->where($data)->paginate(15);
     }
 
