@@ -27,6 +27,11 @@ class ClientsController extends Controller
      */
     protected $validator;
 
+     /**
+     * @var ClientRepository
+     */
+    protected $repository;
+
     /**
      * @var ClientService
      */
@@ -54,4 +59,22 @@ class ClientsController extends Controller
     {
         return response()->json($this->service->updateByOrder($request->all()));
     }
+
+    public function listLead(Request $request)
+    {
+        return response()->json($this->service->getListPurchase());
+    }
+
+    public function searchs(Request $request)
+    {
+        $form = $request->input("formInfo");
+        return response()->json($this->service->getSearchs($form));
+    }
+
+    public function leadSearchs(Request $request)
+    {
+        $form = $request->input("formInfo");
+        return response()->json($this->service->getLeadSearchs($form));
+    }
+
 }

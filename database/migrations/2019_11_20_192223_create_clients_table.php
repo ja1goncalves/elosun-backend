@@ -39,3 +39,4 @@ class CreateClientsTable extends Migration
 		Schema::drop('clients');
 	}
 }
+

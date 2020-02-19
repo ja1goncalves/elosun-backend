@@ -13,7 +13,7 @@ trait CrudMethods
      * @param int $limit
      * @return mixed
      */
-    public function all(int $limit = 20)
+    public function all(int $limit = 15)
     {
         return $this->repository->paginate($limit);
     }
@@ -74,4 +74,5 @@ trait CrudMethods
         $this->repository->delete($id);
         return ['error' => false];
     }
+    
 }

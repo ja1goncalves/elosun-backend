@@ -39,10 +39,11 @@ class UsersController extends Controller
      * @param UserService $service
      * @param UserValidator $validator
      */
-    public function __construct(UserService $service, UserValidator $validator)
+    public function __construct(UserService $service, UserValidator $validator, UserRepository $repository)
     {
         $this->service = $service;
         $this->validator  = $validator;
+        $this->repository = $repository;
     }
 
     public function create(UserCreateRequest $request)
@@ -53,5 +54,20 @@ class UsersController extends Controller
     public function getUserProviderOrClient()
     {
         return response()->json($this->service->getUserProviderOrClient());
+    }
+
+    public function searchs(Request $request)
+    {
+        $data = [];
+        $form = $request->input("formInfo");
+
+        if(isset($form['name'])){
+            $data[] = ['name', 'LIKE', "%".$form['name']."%"];
+        }
+        if(isset($form['email'])){
+            $data[] = ['email', 'LIKE', "%".$form['email']."%"];
+        }
+
+        return  response()->json($this->repository->where($data)->paginate(15));
     }
 }

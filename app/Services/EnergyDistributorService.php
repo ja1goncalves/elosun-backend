@@ -88,4 +88,5 @@ class EnergyDistributorService extends AppService
         $name = explode('(', $name);
         return trim($name[1], ')');
     }
+
 }

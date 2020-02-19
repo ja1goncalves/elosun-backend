@@ -12,6 +12,7 @@ use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\ProviderCreateRequest;
 use App\Http\Requests\ProviderUpdateRequest;
 use App\Validators\ProviderValidator;
+use App\Repositories\ProviderRepository;
 
 /**
  * Class ProvidersController.
@@ -38,10 +39,11 @@ class ProvidersController extends Controller
      * @param ProviderService $service
      * @param ProviderValidator $validator
      */
-    public function __construct(ProviderService $service, ProviderValidator $validator)
+    public function __construct(ProviderService $service, ProviderValidator $validator, ProviderRepository $repository)
     {
         $this->service = $service;
         $this->validator  = $validator;
+        $this->repository = $repository;
     }
 
     public function bestsByOrders(Request $request)
@@ -54,4 +56,22 @@ class ProvidersController extends Controller
     {
         return response()->json($this->service->updateByOrder($request->all()));
     }
+
+    public function listLead(Request $request)
+    {
+        return response()->json($this->service->getListSale());
+    }
+
+    public function searchs(Request $request)
+    {
+        $form = $request->input("formInfo");
+        return response()->json($this->service->getSearchs($form));
+    }
+
+    public function leadSearchs(Request $request)
+    {
+        $form = $request->input("formInfo");
+        return response()->json($this->service->getLeadSearchs($form));
+    }
 }
+

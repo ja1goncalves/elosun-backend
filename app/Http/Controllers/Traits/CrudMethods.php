@@ -36,6 +36,7 @@ trait CrudMethods
     {
         return response()->json($this->service->find($id));
     }
+    
     /**
      * @param Request $request
      * @return mixed
@@ -100,6 +101,7 @@ trait CrudMethods
     {
         return $this->service->findWhere($data);
     }
+    
     public function template()
     {
         return view('welcome');

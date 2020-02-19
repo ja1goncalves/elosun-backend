@@ -84,13 +84,23 @@ class OrderService extends AppService
 
     public function sale(array $data)
     {
-        $provider = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'] ?? null,
-            'cellphone' => $data['cellphone'],
-            'cpf_cnpj' => $data['cpf_cnpj'] ?? null
-        ];
+
+        $email = $this->provider->findWhere([['email', "=" ,$data['email']] ]);
+   
+        if (count($email) > 0) {
+            
+            return $this->returnError([], 'E-mail já cadastrado.', 200);
+    
+        } else {
+
+            $provider = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'] ?? null,
+                'cellphone' => $data['cellphone'],
+                'cpf_cnpj' => $data['cpf_cnpj'] ?? null
+            ];
+        }
 
         $provider = $this->provider->updateOrCreate($provider);
 
@@ -101,11 +111,13 @@ class OrderService extends AppService
             'end_watts' => $data['end_watts'],
             'type_order' => Order::SALE,
             'order_status_id' => 2
-        ];
+        ]; 
+
+
+        $return['order'] = $provider->orders()->create($order);
 
         $return['provider'] = $provider;
         $return['address'] = $address;
-        $return['order'] = $provider->orders()->create($order);
 
         $url_front = Config::get('services.provider_front.url');
         $data_send_mail = [
@@ -122,12 +134,20 @@ class OrderService extends AppService
 
     public function purchase(array $data)
     {
-        $client = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'cellphone' => $data['cellphone'],
-            'cpf_cnpj' => $data['cpf_cnpj'] ?? null
-        ];
+        $email = $this->client->findWhere([['email', "=" ,$data['email']] ]);
+
+        if (count($email) > 0) {
+            
+            return $this->returnError([], 'E-mail já cadastrado.', 200);
+    
+        } else {
+            $client = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'cellphone' => $data['cellphone'],
+                'cpf_cnpj' => $data['cpf_cnpj'] ?? null
+            ];
+        }    
 
         $client = $this->client->updateOrCreate($client);
 

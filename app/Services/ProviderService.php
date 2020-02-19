@@ -12,6 +12,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use App\Services\Traits\CrudMethods;
 use App\Repositories\ProviderRepository;
+use DB;
 
 class ProviderService extends AppService
 {
@@ -120,4 +121,56 @@ class ProviderService extends AppService
             'station' => $station,
         ]);
     }
+
+    public function getListSale()
+    {
+        $data = DB::table('providers')
+        ->join('orders', 'providers.id', '=', 'orders.orderly_id')
+        ->select('providers.name', 'providers.email', 'providers.cellphone', DB::raw('CONCAT(orders.start_watts, "kw", orders.end_watts) as consumo'), 'providers.created_at')
+        ->where('type_order', '=', 'sale')->orderBy('providers.name')->paginate(15);     
+
+        return $this->returnSuccess($data);
+    }
+
+    public function getSearchs($info)
+    {
+        $data = [];
+
+        if(isset($info['name'])){
+            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
+        }
+        if(isset($info['email'])){
+            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
+        }
+        if(isset($info['cellphone'])){
+            $data[] = ['cellphone', 'LIKE', "%".$info['cellphone']."%"];
+        }
+        if(isset($info['orderStatusId'])){
+            $dataOrder[] = ['order_status_id', '=', $info['orderStatusID']];
+        }
+        
+        return $this->repository->with('orders', function($query) {
+            $query->where($dataOrder)->get();
+        })->where($data)->paginate(15);
+    }
+
+    public function getLeadSearchs($info)
+    {
+        $data = [];
+
+        if(isset($info['name'])){
+            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
+        }
+        if(isset($info['email'])){
+            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
+        }
+        if(isset($info['orderStatusId'])){
+            $dataOrder[] = ['order_status_id', '=', $info['orderStatusId']];
+        }
+        
+        return $this->repository->with('orders', function($query) {
+            $query->where($dataOrder)->get();
+        })->where($data)->paginate(15);
+    }
+
 }

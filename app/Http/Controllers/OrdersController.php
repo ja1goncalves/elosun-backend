@@ -53,6 +53,7 @@ class OrdersController extends Controller
 
     public function purchase(OrderCreateRequest $request)
     {
+        
         $response = $this->service->purchase($request->all());
         return response()->json($response, $response['status']);
     }
@@ -72,4 +73,5 @@ class OrdersController extends Controller
     {
         return response()->json($this->service->getOrderly($id));
     }
+    
 }

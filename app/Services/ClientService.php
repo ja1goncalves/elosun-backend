@@ -107,4 +107,70 @@ class ClientService extends AppService
             'account' => $account,
         ]);
     }
+
+    public function getListPurchase()
+    {
+        $data = DB::table('clients')
+        ->join('orders', 'clients.id', '=', 'orders.orderly_id')
+        ->select('clients.name', 'clients.email', 'clients.cellphone', DB::raw('CONCAT(orders.start_watts, "kw", orders.end_watts) as consumo'), 'clients.created_at')
+        ->where('type_order', '=', 'purchase')->orderBy('clients.name')->paginate(15);    
+
+        return $this->returnSuccess($data);     
+    }
+
+    public function getSearchs($info)
+    {
+        $data = [];
+        $dataOrder = [];
+
+        if(isset($info['name'])){
+            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
+        }
+        if(isset($info['email'])){
+            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
+        }
+        if(isset($info['cellphone'])){
+            $data[] = ['cellphone', 'LIKE', "%".$info['cellphone']."%"];
+        }
+
+        if(isset($info['orderStatusId'])){
+            $dataOrder[] = ['order_status_id', '=', $info['orderStatusId']];
+        }
+
+        return $this->repository->with([
+            'orders.status' //faz o join com as entidades
+        ], function($query) { 
+            $query->where($dataOrder)->get();
+        })->where($data)->paginate(15);
+    }
+
+    public function getLeadSearchs($info)
+    {
+        $data = [];
+
+        if(isset($info['name'])){
+            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
+        }
+        if(isset($info['email'])){
+            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
+        }
+
+        if(isset($info['email'])){
+            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
+        }
+
+        if(isset($info['email'])){
+            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
+        }
+
+        if(isset($info['orderStatusId'])){
+            $dataOrder[] = ['order_status_id', '=', $info['orderStatusId']];
+            
+        }
+        
+        return $this->repository->with('orders', function($query) {
+            $query->where($dataOrder)->get();
+        })->where($data)->paginate(15);
+    }
+
 }
