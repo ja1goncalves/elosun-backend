@@ -8,10 +8,14 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth:api']], function () {
 
 Route::group(['prefix' => 'clients', 'middleware' => ['auth:api']], function () {
     Route::post('/', 'ClientsController@index');
+    Route::get('/{id}', 'ClientsController@show');
+    Route::put('/update', 'ClientsController@update');
 });
 
 Route::group(['prefix' => 'providers', 'middleware' => ['auth:api']], function () {
     Route::post('/', 'ProvidersController@index');
+    Route::get('/{id}', 'ProvidersController@show');
+    Route::put('/update', 'ProvidersController@update');
 });
 
 Route::group(['prefix' => 'orders', 'middleware' => ['auth:api']], function () {

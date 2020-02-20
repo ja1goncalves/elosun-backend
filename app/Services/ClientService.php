@@ -10,6 +10,7 @@ use App\Repositories\BankAccountsRepository;
 use App\Repositories\ClientRepository;
 use App\Repositories\ElectricAccountRepository;
 use App\Repositories\EnergyDistributorRepository;
+use App\Repositories\OrderRepository;
 use App\Services\Traits\CrudMethods;
 use Illuminate\Support\Facades\DB;
 
@@ -38,20 +39,35 @@ class ClientService extends AppService
     protected $bankAccounts;
 
     /**
+     * @var OrderRepository
+     */
+    protected $order;
+
+    /**
+     * @var AddressRepository
+     */
+    protected $address;
+
+    /**
      * ClientsController constructor.
      *
      * @param ClientRepository $repository
      * @param ElectricAccountRepository $electricAccountRepository
      * @param EnergyDistributorRepository $energyDistributor
      * @param BankAccountsRepository $bankAccounts
+     * @param OrderRepository $order
+     * @param AddressRepository $address
      */
     public function __construct(ClientRepository $repository,  ElectricAccountRepository $electricAccountRepository,
-                                EnergyDistributorRepository $energyDistributor, BankAccountsRepository $bankAccounts)
+                                EnergyDistributorRepository $energyDistributor, BankAccountsRepository $bankAccounts,
+                                 AddressRepository $address, OrderRepository $order)
     {
         $this->repository = $repository;
         $this->accounts = $electricAccountRepository;
         $this->distributors = $energyDistributor;
         $this->bankAccounts = $bankAccounts;
+        $this->order = $order;
+        $this->address = $address;
     }
 
     public function bestsByOrders($limit = 15)
@@ -143,6 +159,74 @@ class ClientService extends AppService
         ->whereHas('addresses', function($query) use($addresses) { 
             $query->where($addresses);            
         })->where($data)->paginate(15);
+    }
+
+    public function getDetail($info)
+    {
+        $id = $info["id"];
+        $client = $this->repository->with('addresses')->with('orders')->find($id);
+
+        if ($client) {
+        $data = [
+            'name' => $client['name'],
+            'email' => $client['email'],
+            'cpf_cnpj' => $client['cpf_cnpj'],
+            'phone' => $client['phone'],
+            'cellphone' => $client['cellphone'],
+            'address' => [
+                'state' => $client['addresses'][0]['state'],
+                'zip_code' => $client['addresses'][0]['zip_code'],
+                'city' => $client['addresses'][0]['city'],
+                'street' => $client['addresses'][0]['street'],
+                'number' => $client['addresses'][0]['number']
+            ],
+            'order' => [
+                'start_watts' => $client['orders'][0]['start_watts'],
+                'end_watts' => $client['orders'][0]['end_watts'], 
+                'order_status_id' => $client['orders'][0]['order_status_id']
+            ]
+            ];
+     }
+
+     return $this->returnSuccess($data);
+    }
+
+
+    public function getUpdateClient(array $data)
+    {
+        $client = $this->repository->with('addresses')->with('orders')->find($data['id']);
+
+        if ($client) {
+        $client = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'cpf_cnpj' => $data['cpf_cnpj'],
+            'phone' => $data['phone'],
+            'cellphone' => $data['cellphone']
+        ];
+        
+        $client = $this->repository->update($client, $data['id']);
+
+        $addresses = [
+            'state' => $data['state'],
+            'zip_code' => $data['zip_code'],
+            'city' => $data['city'],
+            'street' => $data['street'],
+            'number' => $data['number']
+        ];
+
+        $addresses = $client->addresses()->update($addresses);
+
+        $order = [
+            'start_watts' => $data['start_watts'],
+            'end_watts' => $data['end_watts'],
+            'order_status_id' => $data['order_status_id']
+        ];
+
+        $return = $client->orders()->update($order);
+
+      }
+        return $this->returnSuccess($return);
     }
 
 }

@@ -68,5 +68,15 @@ class ProvidersController extends Controller
 
         return response()->json($this->service->getSearchs($form));
     }
+
+    public function show(Request $request)
+    {       
+        return response()->json($this->service->getDetail($request));
+    }
+
+    public function update(Request $request)
+    {       
+        return response()->json($this->service->getUpdateProvider($request->all()));
+    }
 }
 

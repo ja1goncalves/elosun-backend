@@ -158,4 +158,72 @@ class ProviderService extends AppService
             $query->where($addresses);
         })->where($data)->paginate(15);
     }
+
+    public function getDetail($info)
+    {
+        $id = $info["id"];
+        $provider = $this->repository->with('addresses')->with('orders')->find($id);
+
+        if ($provider) {
+        $data = [
+            'name' => $provider['name'],
+            'email' => $provider['email'],
+            'cpf_cnpj' => $provider['cpf_cnpj'],
+            'phone' => $provider['phone'],
+            'cellphone' => $provider['cellphone'],
+            'address' => [
+                'state' => $provider['addresses'][0]['state'],
+                'zip_code' => $provider['addresses'][0]['zip_code'],
+                'city' => $provider['addresses'][0]['city'],
+                'street' => $provider['addresses'][0]['street'],
+                'number' => $provider['addresses'][0]['number']
+            ],
+            'order' => [
+                'start_watts' => $provider['orders'][0]['start_watts'],
+                'end_watts' => $provider['orders'][0]['end_watts'], 
+                'order_status_id' => $provider['orders'][0]['order_status_id']
+            ]
+            ];
+     }
+
+     return $this->returnSuccess($data);
+    }
+
+
+    public function getUpdateProvider(array $data)
+    {
+        $provider = $this->repository->with('addresses')->with('orders')->find($data['id']);
+
+        if ($provider) {
+        $provider = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'cpf_cnpj' => $data['cpf_cnpj'],
+            'phone' => $data['phone'],
+            'cellphone' => $data['cellphone']
+        ];
+        
+        $provider = $this->repository->update($provider, $data['id']);
+
+        $addresses = [
+            'state' => $data['state'],
+            'zip_code' => $data['zip_code'],
+            'city' => $data['city'],
+            'street' => $data['street'],
+            'number' => $data['number']
+        ];
+
+        $addresses = $provider->addresses()->update($addresses);
+
+        $order = [
+            'start_watts' => $data['start_watts'],
+            'end_watts' => $data['end_watts'],
+            'order_status_id' => $data['order_status_id']
+        ];
+
+        $return = $provider->orders()->update($order);
+
+      }
+        return $this->returnSuccess($return);
+    }
 }
