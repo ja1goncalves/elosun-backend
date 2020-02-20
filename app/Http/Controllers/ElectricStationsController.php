@@ -47,6 +47,9 @@ class ElectricStationsController extends Controller
     public function index(Request $request)
     {
         $form = $request->input("formInfo");
+        $form['id'] = $request->input("id"); 
+
+
         return response()->json($this->service->getSearchs($form));
     }
 }

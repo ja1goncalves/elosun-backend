@@ -126,6 +126,7 @@ class ProviderService extends AppService
     {
         $data = [];
         $dataOrder = [];
+        $addresses = [];
 
         if(isset($info['name'])){
             $data[] = ['name', 'LIKE', "%".$info['name']."%"];
@@ -145,10 +146,16 @@ class ProviderService extends AppService
         if(isset($info['endWatts'])){
             $dataOrder[] = ['end_watts', '<=', $info['endWatts']];
         }
+        if (isset($info['state'])) {
+            $addresses[] = ['state', 'LIKE', "%".$info['state']."%"];
+        }
         
         return $this->repository->with(['orders.status', 'addresses'])
         ->whereHas('orders', function($query) use($dataOrder) { 
             $query->where($dataOrder);
+        })
+        ->whereHas('addresses', function($query) use($addresses) { 
+            $query->where($addresses);
         })->where($data)->paginate(15);
     }
 }

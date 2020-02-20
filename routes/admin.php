@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'users', 'middleware' => ['auth:api']], function () {
-    Route::resource('/', 'UsersController', ['except' => ['create', 'delete']]);
+    Route::post('/', 'UsersController@index');
 });
 
 Route::group(['prefix' => 'clients', 'middleware' => ['auth:api']], function () {
@@ -25,7 +25,7 @@ Route::group(['prefix' => 'distributors', 'middleware' => ['auth:api']], functio
 });
 
 Route::group(['prefix' => 'stations', 'middleware' => ['auth:api']], function () {
-    Route::resource('/', 'ElectricStationsController', ['except' => ['create', 'delete']]);
+    Route::post('/', 'ElectricStationsController@index');
     Route::get('/{id}', 'ElectricStationsController@show');
 });
 

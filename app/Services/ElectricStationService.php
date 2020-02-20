@@ -51,12 +51,13 @@ class ElectricStationService extends AppService
         if(isset($info['potencykW'])){
             $data[] = ['potency_kW', 'LIKE', "%".$info['potencykW']."%",];
         }
-        if(isset($form['subgroup'])){
+        if(isset($info['subgroup'])){
             $data[] = ['subgroup', 'LIKE', "%".$info['subgroup']."%",];
         } 
         if(isset($info['dateConnection']) && !empty($info['dateConnection'])){
             $data[] = ['connection_at', 'LIKE', $info['dateConnection']."%"];
         }
+
 
         return  $this->repository->where($data)->paginate(15);   
     }
