@@ -122,41 +122,19 @@ class ClientService extends AppService
         if(isset($info['cellphone'])){
             $data[] = ['cellphone', 'LIKE', "%".$info['cellphone']."%"];
         }
-
         if(isset($info['orderStatusId'])){
             $dataOrder[] = ['order_status_id', '=', $info['orderStatusId']];
         }
-
-        return $this->repository->with(['orders.status' ], function($query) { 
-            $query->where($dataOrder)->get();})->where($data)->paginate(15);
-    }
-
-    public function getLeadSearchs($info)
-    {
-        $data = [];
-
-        if(isset($info['name'])){
-            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
+        if(isset($info['startWatts'])){
+            $dataOrder[] = ['start_watts', '>=', $info['startWatts']];
         }
-        if(isset($info['email'])){
-            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
+        if(isset($info['endWatts'])){
+            $dataOrder[] = ['end_watts', '<=', $info['endWatts']];
         }
 
-        if(isset($info['email'])){
-            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
-        }
-
-        if(isset($info['email'])){
-            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
-        }
-
-        if(isset($info['orderStatusId'])){
-            $dataOrder[] = ['order_status_id', '=', $info['orderStatusId']];
-            
-        }
-        
-        return $this->repository->with(['orders.status'],function($query) { 
-            $query->where($dataOrder)->first();
+        return $this->repository->with(['orders.status', 'addresses'])
+        ->whereHas('orders', function($query) use($dataOrder) { 
+            $query->where($dataOrder);
         })->where($data)->paginate(15);
     }
 

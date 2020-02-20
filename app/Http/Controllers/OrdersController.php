@@ -11,7 +11,6 @@ use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
-use App\Repositories\OrderRepository;
 use App\Validators\OrderValidator;
 
 /**

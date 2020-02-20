@@ -11,7 +11,6 @@ use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\AddressCreateRequest;
 use App\Http\Requests\AddressUpdateRequest;
-use App\Repositories\AddressRepository;
 use App\Validators\AddressValidator;
 
 /**

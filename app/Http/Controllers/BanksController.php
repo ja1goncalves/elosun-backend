@@ -11,7 +11,6 @@ use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\BanksCreateRequest;
 use App\Http\Requests\BanksUpdateRequest;
-use App\Repositories\BanksRepository;
 use App\Validators\BanksValidator;
 
 /**

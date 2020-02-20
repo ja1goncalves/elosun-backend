@@ -57,21 +57,16 @@ class ProvidersController extends Controller
         return response()->json($this->service->updateByOrder($request->all()));
     }
 
-    public function listLead(Request $request)
-    {
-        return response()->json($this->service->getListSale());
-    }
-
-    public function searchs(Request $request)
+    public function index(Request $request)
     {
         $form = $request->input("formInfo");
+        $lead = $request->input("lead");
+
+        if (isset($lead)) {
+            $form['orderStatusId'] = 2; 
+        }
+
         return response()->json($this->service->getSearchs($form));
-    }
-
-    public function leadSearchs(Request $request)
-    {
-        $form = $request->input("formInfo");
-        return response()->json($this->service->getLeadSearchs($form));
     }
 }
 

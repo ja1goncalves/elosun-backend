@@ -89,4 +89,24 @@ class EnergyDistributorService extends AppService
         return trim($name[1], ')');
     }
 
+    public function getSearchs($info)
+    {
+        $data = [];
+
+        if(isset($info['name'])){
+            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
+        }
+        if(isset($info['initials'])){
+            $data[] = ['initials', 'LIKE', "%".$info['initials']."%"];
+        }
+        if(isset($info['totalStations'])){
+            $data[] = ['total_stations', 'LIKE', "%".$info['totalStations']."%"];
+        }
+        if(isset($info['potency'])){
+            $data[] = ['potency_kW', 'LIKE', "%".$info['potency']."%"];
+        }
+        
+        return  $this->repository->where($data)->paginate(15);
+    }
+
 }

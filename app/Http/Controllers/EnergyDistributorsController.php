@@ -12,7 +12,6 @@ use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\EnergyDistributorCreateRequest;
 use App\Http\Requests\EnergyDistributorUpdateRequest;
-use App\Repositories\EnergyDistributorRepository;
 use App\Validators\EnergyDistributorValidator;
 
 /**
@@ -40,11 +39,10 @@ class EnergyDistributorsController extends Controller
      * @param EnergyDistributorService $service
      * @param EnergyDistributorValidator $validator
      */
-    public function __construct(EnergyDistributorService $service, EnergyDistributorValidator $validator, EnergyDistributorRepository $repository)
+    public function __construct(EnergyDistributorService $service, EnergyDistributorValidator $validator)
     {
         $this->service = $service;
         $this->validator  = $validator;
-        $this->repository = $repository;
     }
 
     public function getInitials()
@@ -64,26 +62,10 @@ class EnergyDistributorsController extends Controller
         return response()->json($response, $response['error'] ? 500 : 200);
     }
 
-
-    public function searchs(Request $request)
+    public function index(Request $request)
     {
-        $data = [];
         $form = $request->input("formInfo");
-
-        if(isset($form['name'])){
-            $data[] = ['name', 'LIKE', "%".$form['name']."%"];
-        }
-        if(isset($form['initials'])){
-            $data[] = ['initials', 'LIKE', "%".$form['initials']."%"];
-        }
-        if(isset($form['totalStations'])){
-            $data[] = ['total_stations', 'LIKE', "%".$form['totalStations']."%"];
-        }
-        if(isset($form['potency'])){
-            $data[] = ['potency_kW', 'LIKE', "%".$form['potency']."%"];
-        }
-        
-        return  response()->json($this->repository->where($data)->paginate(15));
+        return response()->json($this->service->getSearchs($form));
     }
 
 }

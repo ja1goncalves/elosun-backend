@@ -63,12 +63,12 @@ class ClientsController extends Controller
     public function index(Request $request)
     {
         $form = $request->input("formInfo");
-        return response()->json($this->service->getSearchs($form));
-    }
+        $lead = $request->input("lead");
 
-    public function listLead(Request $request)
-    {
-        $form = $request->input("formInfo");
-        return response()->json($this->service->getLeadSearchs($form));
+        if (isset($lead)) {
+            $form['orderStatusId'] = 2; 
+        }
+
+        return response()->json($this->service->getSearchs($form));
     }
 }

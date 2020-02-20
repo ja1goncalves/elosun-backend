@@ -56,18 +56,9 @@ class UsersController extends Controller
         return response()->json($this->service->getUserProviderOrClient());
     }
 
-    public function searchs(Request $request)
+    public function index(Request $request)
     {
-        $data = [];
         $form = $request->input("formInfo");
-
-        if(isset($form['name'])){
-            $data[] = ['name', 'LIKE', "%".$form['name']."%"];
-        }
-        if(isset($form['email'])){
-            $data[] = ['email', 'LIKE', "%".$form['email']."%"];
-        }
-
-        return  response()->json($this->repository->where($data)->paginate(15));
+        return response()->json($this->service->getSearchs($form));
     }
 }

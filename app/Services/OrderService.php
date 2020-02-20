@@ -101,7 +101,7 @@ class OrderService extends AppService
                 'cpf_cnpj' => $data['cpf_cnpj'] ?? null
             ];
         }
-
+        
         $provider = $this->provider->updateOrCreate($provider);
 
         $address = $provider->addresses()->updateOrCreate($data['address']);

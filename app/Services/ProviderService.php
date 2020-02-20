@@ -122,19 +122,10 @@ class ProviderService extends AppService
         ]);
     }
 
-    public function getListSale()
-    {
-        $data = DB::table('providers')
-        ->join('orders', 'providers.id', '=', 'orders.orderly_id')
-        ->select('providers.name', 'providers.email', 'providers.cellphone', DB::raw('CONCAT(orders.start_watts, "kw", orders.end_watts) as consumo'), 'providers.created_at')
-        ->where('type_order', '=', 'sale')->orderBy('providers.name')->paginate(15);     
-
-        return $this->returnSuccess($data);
-    }
-
     public function getSearchs($info)
     {
         $data = [];
+        $dataOrder = [];
 
         if(isset($info['name'])){
             $data[] = ['name', 'LIKE', "%".$info['name']."%"];
@@ -146,31 +137,18 @@ class ProviderService extends AppService
             $data[] = ['cellphone', 'LIKE', "%".$info['cellphone']."%"];
         }
         if(isset($info['orderStatusId'])){
-            $dataOrder[] = ['order_status_id', '=', $info['orderStatusID']];
-        }
-        
-        return $this->repository->with('orders', function($query) {
-            $query->where($dataOrder)->get();
-        })->where($data)->paginate(15);
-    }
-
-    public function getLeadSearchs($info)
-    {
-        $data = [];
-
-        if(isset($info['name'])){
-            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
-        }
-        if(isset($info['email'])){
-            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
-        }
-        if(isset($info['orderStatusId'])){
             $dataOrder[] = ['order_status_id', '=', $info['orderStatusId']];
         }
+        if(isset($info['startWatts'])){
+            $dataOrder[] = ['start_watts', '>=', $info['startWatts']];
+        }
+        if(isset($info['endWatts'])){
+            $dataOrder[] = ['end_watts', '<=', $info['endWatts']];
+        }
         
-        return $this->repository->with('orders', function($query) {
-            $query->where($dataOrder)->get();
+        return $this->repository->with(['orders.status', 'addresses'])
+        ->whereHas('orders', function($query) use($dataOrder) { 
+            $query->where($dataOrder);
         })->where($data)->paginate(15);
     }
-
 }

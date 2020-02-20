@@ -15,6 +15,7 @@ use App\Validators\ClientValidator;
  */
 class ClientRepositoryEloquent extends BaseRepository implements ClientRepository
 {
+
     /**
      * Specify Model class name
      *
@@ -53,5 +54,6 @@ class ClientRepositoryEloquent extends BaseRepository implements ClientRepositor
             ->selectRaw('name, email, cpf_cnpj, SUM(orders.end_watts) as watts, COUNT(orders) as total_orders')
             ->orderByRaw('SUM(orders.end_watts)');
     }
+    
 
 }

@@ -61,4 +61,18 @@ class UserService extends AppService
 
         return $this->returnSuccess($data->toArray());
     }
+
+    public function getSearchs($info)
+    {
+        $data = [];
+
+        if(isset($info['name'])){
+            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
+        }
+        if(isset($info['email'])){
+            $data[] = ['email', 'LIKE', "%".$info['email']."%"];
+        }
+
+        return  $this->repository->where($data)->paginate(15);
+    }
 }

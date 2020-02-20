@@ -37,4 +37,28 @@ class ElectricStationService extends AppService
         return $this->returnSuccess($this->processAll($limit));
     }
 
+    public function getSearchs($info)
+    {
+        $data = [];
+        $data[] = ['energy_distributor_id', '=', $info["id"]];
+
+        if(isset($info['name'])){
+            $data[] = ['name', 'LIKE', "%".$info['name']."%"];
+        }
+        if(isset($info['holder'])){
+            $data[] = ['holder', 'LIKE', "%".$info['holder']."%",];
+        }
+        if(isset($info['potencykW'])){
+            $data[] = ['potency_kW', 'LIKE', "%".$info['potencykW']."%",];
+        }
+        if(isset($form['subgroup'])){
+            $data[] = ['subgroup', 'LIKE', "%".$info['subgroup']."%",];
+        } 
+        if(isset($info['dateConnection']) && !empty($info['dateConnection'])){
+            $data[] = ['connection_at', 'LIKE', $info['dateConnection']."%"];
+        }
+
+        return  $this->repository->where($data)->paginate(15);   
+    }
+
 }
