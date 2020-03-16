@@ -49,7 +49,11 @@ class ElectricStationsController extends Controller
         $form = $request->input("formInfo");
         $form['id'] = $request->input("id"); 
 
-
         return response()->json($this->service->getSearchs($form));
+    }
+
+    public function show(Request $request)
+    {       
+        return response()->json($this->service->getDetail($request));
     }
 }

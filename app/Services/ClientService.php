@@ -173,24 +173,21 @@ class ClientService extends AppService
             'cpf_cnpj' => $client['cpf_cnpj'],
             'phone' => $client['phone'],
             'cellphone' => $client['cellphone'],
-            'address' => [
-                'state' => $client['addresses'][0]['state'],
-                'zip_code' => $client['addresses'][0]['zip_code'],
-                'city' => $client['addresses'][0]['city'],
-                'street' => $client['addresses'][0]['street'],
-                'number' => $client['addresses'][0]['number']
-            ],
-            'order' => [
-                'start_watts' => $client['orders'][0]['start_watts'],
-                'end_watts' => $client['orders'][0]['end_watts'], 
-                'order_status_id' => $client['orders'][0]['order_status_id']
-            ]
+            'created' => $client['created_at'],
+            'updated' => $client['updated_at'],
+            'state' => $client['addresses'][0]['state'],
+            'zip_code' => $client['addresses'][0]['zip_code'],
+            'city' => $client['addresses'][0]['city'],
+            'street' => $client['addresses'][0]['street'],
+            'number' => $client['addresses'][0]['number'],
+            'start_watts' => $client['orders'][0]['start_watts'],
+            'end_watts' => $client['orders'][0]['end_watts'], 
+            'order_status_id' => $client['orders'][0]['order_status_id']
             ];
      }
 
      return $this->returnSuccess($data);
     }
-
 
     public function getUpdateClient(array $data)
     {
@@ -202,9 +199,9 @@ class ClientService extends AppService
             'email' => $data['email'],
             'cpf_cnpj' => $data['cpf_cnpj'],
             'phone' => $data['phone'],
-            'cellphone' => $data['cellphone']
-        ];
-        
+            'cellphone' => $data['cellphone'] 
+         ];
+         
         $client = $this->repository->update($client, $data['id']);
 
         $addresses = [
@@ -215,7 +212,7 @@ class ClientService extends AppService
             'number' => $data['number']
         ];
 
-        $addresses = $client->addresses()->update($addresses);
+        $client->addresses()->update($addresses);
 
         $order = [
             'start_watts' => $data['start_watts'],
@@ -223,10 +220,10 @@ class ClientService extends AppService
             'order_status_id' => $data['order_status_id']
         ];
 
-        $return = $client->orders()->update($order);
+        $client->orders()->update($order);
 
       }
-        return $this->returnSuccess($return);
+        return $this->returnSuccess([], 'Cliente atualizado com sucesso!');
     }
 
 }

@@ -61,4 +61,14 @@ class UsersController extends Controller
         $form = $request->input("formInfo");
         return response()->json($this->service->getSearchs($form));
     }
+
+    public function show(Request $request)
+    {       
+        return response()->json($this->service->getDetail($request));
+    }
+
+    public function update(Request $request)
+    {       
+        return response()->json($this->service->getUpdateUrser($request->all()));
+    }
 }

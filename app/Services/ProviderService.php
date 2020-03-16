@@ -171,18 +171,16 @@ class ProviderService extends AppService
             'cpf_cnpj' => $provider['cpf_cnpj'],
             'phone' => $provider['phone'],
             'cellphone' => $provider['cellphone'],
-            'address' => [
-                'state' => $provider['addresses'][0]['state'],
-                'zip_code' => $provider['addresses'][0]['zip_code'],
-                'city' => $provider['addresses'][0]['city'],
-                'street' => $provider['addresses'][0]['street'],
-                'number' => $provider['addresses'][0]['number']
-            ],
-            'order' => [
-                'start_watts' => $provider['orders'][0]['start_watts'],
-                'end_watts' => $provider['orders'][0]['end_watts'], 
-                'order_status_id' => $provider['orders'][0]['order_status_id']
-            ]
+            'created' => $provider['created_at'],
+            'updated' => $provider['updated_at'],
+            'state' => $provider['addresses'][0]['state'],
+            'zip_code' => $provider['addresses'][0]['zip_code'],
+            'city' => $provider['addresses'][0]['city'],
+            'street' => $provider['addresses'][0]['street'],
+            'number' => $provider['addresses'][0]['number'],
+            'start_watts' => $provider['orders'][0]['start_watts'],
+            'end_watts' => $provider['orders'][0]['end_watts'], 
+            'order_status_id' => $provider['orders'][0]['order_status_id']
             ];
      }
 
@@ -213,7 +211,7 @@ class ProviderService extends AppService
             'number' => $data['number']
         ];
 
-        $addresses = $provider->addresses()->update($addresses);
+        $provider->addresses()->update($addresses);
 
         $order = [
             'start_watts' => $data['start_watts'],
@@ -221,9 +219,9 @@ class ProviderService extends AppService
             'order_status_id' => $data['order_status_id']
         ];
 
-        $return = $provider->orders()->update($order);
+        $provider->orders()->update($order);
 
       }
-        return $this->returnSuccess($return);
+      return $this->returnSuccess([], 'Fornecedor atualizado com sucesso!');
     }
 }

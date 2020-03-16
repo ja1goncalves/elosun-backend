@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'users', 'middleware' => ['auth:api']], function () {
     Route::post('/', 'UsersController@index');
+    Route::get('/{id}', 'UsersController@show');
+    Route::put('/update', 'UsersController@update');
 });
 
 Route::group(['prefix' => 'clients', 'middleware' => ['auth:api']], function () {
@@ -22,7 +24,7 @@ Route::group(['prefix' => 'orders', 'middleware' => ['auth:api']], function () {
     Route::resource('/', 'OrdersController', ['except' => ['create', 'delete']]);
 });
 
-Route::group(['prefix' => 'distributors', 'middleware' => ['auth:api']], function () {
+Route::group(['prefix' => 'distributors', 'middleware' => []], function () {
     Route::post('/', 'EnergyDistributorsController@index');
     Route::get('/{id}', 'EnergyDistributorsController@show');
     Route::post('/update-list', 'EnergyDistributorsController@updateCrw');
